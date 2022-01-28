@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "259206981455",
+    "firebase_url": "https://passwordz-62a14-default-rtdb.firebaseio.com",
+    "project_id": "passwordz-62a14",
+    "storage_bucket": "passwordz-62a14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259206981455:android:b370661e09bb93e40d873a",
+        "android_client_info": {
+          "package_name": "com.zapps.passwordz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259206981455-np422mldkdl151sj23p88svuds2duabb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFhgpJ8BZ0q2DTsYMhKXSHTMjNJVgcCOs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259206981455-np422mldkdl151sj23p88svuds2duabb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
