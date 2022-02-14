@@ -47,8 +47,8 @@ public class FirebaseHelper {
     // root -> cards -> $uid -> $push -> cardsModel
     public final static DatabaseReference CARDS_REF = FirebaseDatabase.getInstance().getReference().child("cards");
 
-    // requires decrypted websiteModel; if pushId is not null then updates existing data
-    public static void saveWebsite(Context context, LoginsModel loginsModel, CompletionListener completionListener) {
+    // requires decrypted LoginsModel; if pushId is not null then updates existing data
+    public static void saveLogin(Context context, LoginsModel loginsModel, CompletionListener completionListener) {
         if (!ConnectionObserver.isConnected(context)) {
             completionListener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
             return;
@@ -88,13 +88,13 @@ public class FirebaseHelper {
     }
 
     // TODO made for testing purpose; remove once app is finished
-    public static void saveWebsite(Context context, LoginsModel loginsModel) {
-        saveWebsite(context, loginsModel, (result, error) -> {
+    public static void saveLogin(Context context, LoginsModel loginsModel) {
+        saveLogin(context, loginsModel, (result, error) -> {
         });
     }
 
     // for deleting single login account
-    public static void deleteWebsite(Context context, String pushId, CompletionListener completionListener) {
+    public static void deleteLogin(Context context, String pushId, CompletionListener completionListener) {
         if (!ConnectionObserver.isConnected(context)) {
             completionListener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
             return;
@@ -137,45 +137,6 @@ public class FirebaseHelper {
         });
     }
 
-    // returns decrypted loginsModel for provided pushId
-    public static void getWebsite(Context context, String pushId, DataRetrieveListener listener) {
-        if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
-            return;
-        }
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (firebaseUser == null) {
-            listener.onError(Helper.MESSAGE_FIREBASE_USER_NULL);
-            return;
-        }
-        Query query = FirebaseHelper.LOGINS_REF.child(firebaseUser.getUid()).child(pushId);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                query.removeEventListener(this);
-                LoginsModel loginsModel = snapshot.getValue(LoginsModel.class);
-                if (loginsModel == null) {
-                    listener.onError(Helper.MESSAGE_TYPE_CONVERSION_FAILED);
-                    return;
-                }
-                try {
-                    loginsModel = loginsModel.decrypt(context);
-                    listener.onSuccess(loginsModel);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    if (e.getMessage() == null) listener.onError(Helper.MESSAGE_DECRYPTION_FAILED);
-                    else listener.onError(e.getMessage());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                query.removeEventListener(this);
-                listener.onError(error.getMessage());
-            }
-        });
-    }
-
     private static void getAllLogins(Context context, Query query, DataRetrieveListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
             listener.onError(Helper.MESSAGE_NO_INTERNET);
@@ -184,7 +145,6 @@ public class FirebaseHelper {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                query.removeEventListener(this);
                 LoginsModel[] list = new LoginsModel[(int) snapshot.getChildrenCount()];
                 int i = 0;
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
@@ -208,7 +168,6 @@ public class FirebaseHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                query.removeEventListener(this);
                 listener.onError(error.getMessage());
             }
         });

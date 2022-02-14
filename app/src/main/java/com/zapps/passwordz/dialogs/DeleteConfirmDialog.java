@@ -112,7 +112,7 @@ public class DeleteConfirmDialog extends BottomSheetDialogFragment {
     }
 
     private void deleteLogin() {
-        FirebaseHelper.deleteWebsite(context, pushId, (result, error) -> {
+        FirebaseHelper.deleteLogin(context, pushId, (result, error) -> {
             if (result) {
                 CToast.success(context, "Removed successfully");
                 listener.onItemDeleted(confirmCode);

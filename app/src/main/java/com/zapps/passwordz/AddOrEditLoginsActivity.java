@@ -200,7 +200,7 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
     // saves modifiedLoginsModel to database
     public void saveToFirebase() {
         enabler.disableAll();
-        FirebaseHelper.saveWebsite(AddOrEditLoginsActivity.this, modifiedLoginsModel, (result, error) -> {
+        FirebaseHelper.saveLogin(AddOrEditLoginsActivity.this, modifiedLoginsModel, (result, error) -> {
             enabler.enableAll();
             if (!result) CToast.error(AddOrEditLoginsActivity.this, error);
             else {

@@ -156,7 +156,7 @@ public class ExportImportHelper {
                     return;
                 }
                 for (LoginsModel loginsModel : filteredModels)
-                    FirebaseHelper.saveWebsite(context, loginsModel, (result, error) -> {
+                    FirebaseHelper.saveLogin(context, loginsModel, (result, error) -> {
                         if (result)
                             results.add("Added: " + loginsModel.getUsername() + " in " + loginsModel.getWebsite());
                         else

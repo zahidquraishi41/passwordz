@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
      */
 
     public void saveAll(LoginsModel... loginsModels) {
-        for (LoginsModel loginsModel : loginsModels) FirebaseHelper.saveWebsite(this, loginsModel);
+        for (LoginsModel loginsModel : loginsModels) FirebaseHelper.saveLogin(this, loginsModel);
     }
 
     public void saveAll(CardsModel... cardsModels) {
