@@ -99,25 +99,29 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     }
 
     private void export(String which) {
+        // TODO: Currently passing excel as default type; Ask user export/import type then replace defaultType with user choice.
+        ExportImportHelper.FileType defaultType = ExportImportHelper.FileType.EXCEL;
         if (!Helper.isFingerprintSet(context)) {
             CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
             return;
         }
         // TODO: ask user export type after successful biometric
         new BiometricAuth().prompt(context, () -> {
-            if (which.equals("cards")) new ExportImportHelper(context).exportCards();
-            else if (which.equals("logins")) new ExportImportHelper(context).exportLogins();
+            if (which.equals("cards")) new ExportImportHelper(context).exportCards(defaultType);
+            else if (which.equals("logins")) new ExportImportHelper(context).exportLogins(defaultType);
         });
     }
 
     private void _import(String which) {
+        // TODO: Currently passing excel as default type; Ask user export/import type then replace defaultType with user choice.
+        ExportImportHelper.FileType defaultType = ExportImportHelper.FileType.EXCEL;
         if (!Helper.isFingerprintSet(context)) {
             CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
             return;
         }
         new BiometricAuth().prompt(context, () -> {
-            if (which.equals("cards")) new ExportImportHelper(context).importCards();
-            else if (which.equals("logins")) new ExportImportHelper(context).importLogins();
+            if (which.equals("cards")) new ExportImportHelper(context).importCards(defaultType);
+            else if (which.equals("logins")) new ExportImportHelper(context).importLogins(defaultType);
         });
     }
 

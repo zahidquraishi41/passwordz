@@ -15,6 +15,7 @@ public class Remember {
     }
 
     public static Remember with(Context context) {
+        /* Same as instantiating with constructor but i like instantiating this way.*/
         return new Remember(context);
     }
 
@@ -23,6 +24,7 @@ public class Remember {
     }
 
     public static class Z {
+
         private final Context context;
         private final String key;
 
