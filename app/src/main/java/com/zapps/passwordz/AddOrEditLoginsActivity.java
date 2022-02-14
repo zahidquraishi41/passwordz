@@ -111,7 +111,7 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
                 }
                 try {
                     originalLoginsModel = originalLoginsModel.decrypt(AddOrEditLoginsActivity.this);
-                    modifiedLoginsModel = originalLoginsModel.copy();
+                    modifiedLoginsModel = originalLoginsModel.clone();
                 } catch (Exception e) {
                     CToast.error(AddOrEditLoginsActivity.this, e.getMessage());
                     e.printStackTrace();

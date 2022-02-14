@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private SensorManager sensorManager;
     private ShakeDetector shakeDetector;
 
+    /* TODO
+     * Encrypt even names of website.
+     *
+     * */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

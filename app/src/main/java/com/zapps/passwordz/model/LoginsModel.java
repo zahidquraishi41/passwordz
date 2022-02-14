@@ -41,9 +41,11 @@ public class LoginsModel implements Cloneable {
         LoginsModel encryptedModel;
         try {
             encryptedModel = (LoginsModel) this.clone();
+            encryptedModel.setWebsite(MrCipher.encrypt(getWebsite(), key));
             encryptedModel.setUsername(MrCipher.encrypt(getUsername(), key));
             encryptedModel.setPassword(MrCipher.encrypt(getPassword(), key));
             encryptedModel.setNotes(MrCipher.encrypt(getNotes(), key));
+            encryptedModel.setLastModified(MrCipher.encrypt(getLastModified(), key));
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
         }
@@ -56,9 +58,12 @@ public class LoginsModel implements Cloneable {
         LoginsModel decryptedModel;
         try {
             decryptedModel = (LoginsModel) this.clone();
+            decryptedModel.setWebsite(MrCipher.decrypt(getWebsite(), key));
             decryptedModel.setUsername(MrCipher.decrypt(getUsername(), key));
             decryptedModel.setPassword(MrCipher.decrypt(getPassword(), key));
             decryptedModel.setNotes(MrCipher.decrypt(getNotes(), key));
+            decryptedModel.setLastModified(MrCipher.decrypt(getLastModified(), key));
+
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_DECRYPTION_FAILED);
         }
@@ -144,7 +149,6 @@ public class LoginsModel implements Cloneable {
     }
 
     public static ArrayList<LoginsModel> fromString(String s) {
-        String TAG = "ZQZQ";
         ArrayList<LoginsModel> loginsModels = new ArrayList<>();
         if (s == null || s.isEmpty()) return loginsModels;
         String[] strCardModels = s.split(DELIMITER);
@@ -159,4 +163,8 @@ public class LoginsModel implements Cloneable {
         return loginsModels;
     }
 
+
+    public LoginsModel clone() throws CloneNotSupportedException {
+        return (LoginsModel) super.clone();
+    }
 }

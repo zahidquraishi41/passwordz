@@ -17,12 +17,7 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
     public String cardNumber, validThrough, nameOnCard, cvv, cardType;
     private static final String DELIMITER = "\t\n\n";
 
-    public static CardsModel getDummyCard() {
-        return new CardsModel("374245455400126", "05/2023", "Adam Abraham", "643", "Credit Card");
-    }
-
-    public CardsModel() {
-    }
+    public CardsModel() {}
 
     public CardsModel(String cardNumber, String validThrough, String nameOnCard, String cvv, String cardType) {
         this.cardNumber = cardNumber;
@@ -42,6 +37,7 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             encrypted.setValidThrough(MrCipher.encrypt(encrypted.getValidThrough(), key));
             encrypted.setNameOnCard(MrCipher.encrypt(encrypted.getNameOnCard(), key));
             encrypted.setCvv(MrCipher.encrypt(encrypted.getCvv(), key));
+            encrypted.setLastModified(MrCipher.encrypt(encrypted.getLastModified(), key));
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
         }
@@ -58,6 +54,7 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             decrypted.setValidThrough(MrCipher.decrypt(decrypted.getValidThrough(), key));
             decrypted.setNameOnCard(MrCipher.decrypt(decrypted.getNameOnCard(), key));
             decrypted.setCvv(MrCipher.decrypt(decrypted.getCvv(), key));
+            decrypted.setLastModified(MrCipher.decrypt(decrypted.getLastModified(), key));
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
         }
@@ -203,6 +200,10 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             cardsModels.add(new CardsModel(cardNumber, validThrough, nameOnCard, cvv, cardType));
         }
         return cardsModels;
+    }
+
+    public CardsModel clone() throws CloneNotSupportedException {
+        return (CardsModel) this.clone();
     }
 
 }

@@ -66,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(authResult -> {
                     try {
                         Remember.with(LoginActivity.this).that(Helper.KEY_HASHED_PASSWORD).is(Helper.getSHA256(password));
-//                        SharedPrefHelper.put(LoginActivity.this, SharedPrefHelper.KEY_HASHED_PASSWORD, Helper.getSHA256(password));
                     } catch (Exception e) {
                         e.printStackTrace();
                         CToast.error(LoginActivity.this, e.getMessage());
