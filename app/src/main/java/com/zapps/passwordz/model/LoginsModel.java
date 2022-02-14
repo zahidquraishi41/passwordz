@@ -8,8 +8,9 @@ import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
-public class LoginsModel implements Cloneable {
+public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
     private String website, username, password, notes;
     private String lastModified, pushId;
     private static final String DELIMITER = "\t\n\n";
@@ -167,4 +168,12 @@ public class LoginsModel implements Cloneable {
     public LoginsModel clone() throws CloneNotSupportedException {
         return (LoginsModel) super.clone();
     }
+
+    @Override
+    public int compareTo(LoginsModel other) {
+        if (getWebsite().equals(other.getWebsite()))
+            return getUsername().compareTo(other.getUsername());
+        return getWebsite().compareTo(other.getWebsite());
+    }
+
 }
