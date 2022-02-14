@@ -103,6 +103,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
             return;
         }
+        // TODO: ask user export type after successful biometric
         new BiometricAuth().prompt(context, () -> {
             if (which.equals("cards")) new ExportImportHelper(context).exportCards();
             else if (which.equals("logins")) new ExportImportHelper(context).exportLogins();

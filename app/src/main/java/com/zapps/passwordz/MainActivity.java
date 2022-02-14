@@ -30,18 +30,6 @@ import com.zapps.passwordz.model.LoginsModel;
 import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
-    // TODO
-
-    // VERSION HISTORY
-
-    // V1.1
-    // trying to fix following bugs: date 03/11/2021
-    //    multiple error messages were displaying when disconnected from internet
-    //    no list is displayed when disconnected from internet
-    // implementing ConnectionObserver can solve this
-    // might be fixed, test now
-    // FIXED
-
     private boolean isAuthenticated = false;
     private FragmentManager fragmentManager;
     private BottomNavigationView navigationView;
