@@ -27,7 +27,6 @@ import com.zapps.passwordz.AddOrEditLoginsActivity;
 import com.zapps.passwordz.LoginsListActivity;
 import com.zapps.passwordz.R;
 import com.zapps.passwordz.helper.CToast;
-import com.zapps.passwordz.helper.ConnectionObserver;
 import com.zapps.passwordz.helper.FirebaseHelper;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.model.LoginsModel;

@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExportImportHelper {
     public enum FileType {TEXT, EXCEL}
@@ -47,6 +48,7 @@ public class ExportImportHelper {
                     CToast.info(context, "No logins to save.");
                     return;
                 }
+                Arrays.sort(loginsModels);
                 if (fileType.equals(FileType.TEXT)) {
                     LoginsAsyncWriter asyncWriter = new LoginsAsyncWriter((result, error) -> {
                         if (result) CToast.success(context, "Logins saved successfully");
@@ -77,6 +79,7 @@ public class ExportImportHelper {
                     CToast.info(context, "No card to save");
                     return;
                 }
+                Arrays.sort(cardsModels);
                 if (fileType.equals(FileType.TEXT)) {
                     CardsAsyncWriter cardsAsyncWriter = new CardsAsyncWriter((result, error) -> {
                         if (result) CToast.success(context, "Cards saved successfully.");
