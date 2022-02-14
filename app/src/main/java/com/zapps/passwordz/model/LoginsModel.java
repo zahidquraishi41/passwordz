@@ -64,7 +64,6 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
             decryptedModel.setPassword(MrCipher.decrypt(getPassword(), key));
             decryptedModel.setNotes(MrCipher.decrypt(getNotes(), key));
             decryptedModel.setLastModified(MrCipher.decrypt(getLastModified(), key));
-
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_DECRYPTION_FAILED);
         }
@@ -129,13 +128,6 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
                 && getNotes().equals(loginsModel.getNotes());
     }
 
-    public LoginsModel copy() {
-        LoginsModel clone = new LoginsModel(getWebsite(), getUsername(), getPassword(), getNotes());
-        clone.setLastModified(getLastModified());
-        clone.setPushId(getPushId());
-        return clone;
-    }
-
     @NonNull
     @Override
     public String toString() {
@@ -163,7 +155,6 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
         }
         return loginsModels;
     }
-
 
     public LoginsModel clone() throws CloneNotSupportedException {
         return (LoginsModel) super.clone();

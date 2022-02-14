@@ -15,5 +15,4 @@
         android:title="@string/delete"
         app:showAsAction="never" />
 
-
 </menu>

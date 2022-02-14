@@ -93,8 +93,6 @@ public class ExportImportHelper {
                     });
                     cardsAsyncWriter.doInBackground(cardsModels);
                 }
-
-                // TODO: check filetype and write
             }
 
             @Override
@@ -345,6 +343,7 @@ public class ExportImportHelper {
         alertDialogBuilder.show();
     }
 
+
     /* Async classes */
     private static class LoginsAsyncWriter extends AsyncTask<LoginsModel, Void, Void> {
         private final FirebaseHelper.CompletionListener listener;
@@ -391,7 +390,6 @@ public class ExportImportHelper {
         protected Void doInBackground(LoginsModel... list) {
             File file = new File(LOGINS_EXCEL);
 
-            // TODO: test if excel file is created
             // Creating excel sheet
             HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
             HSSFSheet hssfSheet = hssfWorkbook.createSheet();
@@ -478,7 +476,6 @@ public class ExportImportHelper {
             //    public String cardNumber, validThrough, nameOnCard, cvv, cardType;
             File file = new File(CARDS_EXCEL);
 
-            // TODO: test if excel file is created
             // Creating excel sheet
             HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
             HSSFSheet hssfSheet = hssfWorkbook.createSheet();

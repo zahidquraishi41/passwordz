@@ -12,8 +12,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class MrCipher {
     public static final String ALGORITHM = "AES/CBC/PKCS5Padding";
-    // TODO remove KEY variable from actual product
-    public static final String KEY = "YcT56.Z8Nuf5F<jLjPh/n#mED";
 
     /**
      * Converts key to SecretKey

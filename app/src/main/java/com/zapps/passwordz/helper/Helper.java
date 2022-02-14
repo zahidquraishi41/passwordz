@@ -143,9 +143,7 @@ public class Helper {
         return hexString.toString();
     }
 
-    // TODO add unique key for extra security. also write it somewhere
     public static String getEncryptionKey(Context context) {
-//        String hashedPassword = SharedPrefHelper.get(context, SharedPrefHelper.KEY_HASHED_PASSWORD);
         String hashedPassword = Remember.with(context).that(Helper.KEY_HASHED_PASSWORD).was();
         if (hashedPassword == null) return null;
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -155,8 +153,7 @@ public class Helper {
         if (email == null | uid == null) return null;
         String encryptionKey = null;
         try {
-            // TODO remove MrCipher.KEY variable from below line; for actual product
-            encryptionKey = getSHA256(hashedPassword + email + uid + MrCipher.KEY);
+            encryptionKey = getSHA256(hashedPassword + email + uid);
         } catch (Exception e) {
             e.printStackTrace();
         }

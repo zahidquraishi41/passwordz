@@ -249,7 +249,6 @@ public class FirebaseHelper {
                 listener.onCompletion(false, error);
             }
         });
-
     }
 
     // TODO made for testing purpose; remove once app is finished
@@ -366,7 +365,6 @@ public class FirebaseHelper {
             else message = task.getException().getMessage();
             listener.onCompletion(task.isSuccessful(), message);
         });
-
     }
 
     public static void deleteAllLogins(Context context, CompletionListener listener) {
@@ -399,7 +397,6 @@ public class FirebaseHelper {
                 .removeValue()
                 .addOnSuccessListener(unused -> listener.onCompletion(true, ""))
                 .addOnFailureListener(e -> listener.onCompletion(false, e.getMessage()));
-
     }
 
 }

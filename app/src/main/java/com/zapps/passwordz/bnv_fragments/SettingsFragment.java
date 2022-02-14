@@ -1,6 +1,7 @@
 package com.zapps.passwordz.bnv_fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import com.zapps.passwordz.helper.Remember;
 
 import java.util.concurrent.Executor;
 
+// TODO remove before commit: currently testing alert dialog
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, ProfilePicFragment.ProfilePicChangeListener {
     public static final String TAG = "SettingsFragment";
     private Context context;
@@ -99,29 +101,59 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     }
 
     private void export(String which) {
-        // TODO: Currently passing excel as default type; Ask user export/import type then replace defaultType with user choice.
-        ExportImportHelper.FileType defaultType = ExportImportHelper.FileType.EXCEL;
         if (!Helper.isFingerprintSet(context)) {
             CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
             return;
         }
-        // TODO: ask user export type after successful biometric
         new BiometricAuth().prompt(context, () -> {
-            if (which.equals("cards")) new ExportImportHelper(context).exportCards(defaultType);
-            else if (which.equals("logins")) new ExportImportHelper(context).exportLogins(defaultType);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Select an option");
+            String[] options = {"Text", "Excel"};
+            builder.setItems(options, (dialogInterface, i) -> {
+                ExportImportHelper.FileType fileType = ExportImportHelper.FileType.TEXT;
+                switch (i) {
+                    case 0:
+                        fileType = ExportImportHelper.FileType.TEXT;
+                        break;
+                    case 1:
+                        fileType = ExportImportHelper.FileType.EXCEL;
+                        break;
+                }
+                if (which.equals("cards"))
+                    new ExportImportHelper(context).exportCards(fileType);
+                else if (which.equals("logins"))
+                    new ExportImportHelper(context).exportLogins(fileType);
+
+            });
+            builder.create().show();
         });
     }
 
     private void _import(String which) {
-        // TODO: Currently passing excel as default type; Ask user export/import type then replace defaultType with user choice.
-        ExportImportHelper.FileType defaultType = ExportImportHelper.FileType.EXCEL;
         if (!Helper.isFingerprintSet(context)) {
             CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
             return;
         }
         new BiometricAuth().prompt(context, () -> {
-            if (which.equals("cards")) new ExportImportHelper(context).importCards(defaultType);
-            else if (which.equals("logins")) new ExportImportHelper(context).importLogins(defaultType);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Select an option");
+            String[] options = {"Text", "Excel"};
+            builder.setItems(options, (dialogInterface, i) -> {
+                ExportImportHelper.FileType fileType = ExportImportHelper.FileType.TEXT;
+                switch (i) {
+                    case 0:
+                        fileType = ExportImportHelper.FileType.TEXT;
+                        break;
+                    case 1:
+                        fileType = ExportImportHelper.FileType.EXCEL;
+                        break;
+                }
+                if (which.equals("cards"))
+                    new ExportImportHelper(context).importCards(fileType);
+                else if (which.equals("logins"))
+                    new ExportImportHelper(context).importLogins(fileType);
+            });
+            builder.create().show();
         });
     }
 
