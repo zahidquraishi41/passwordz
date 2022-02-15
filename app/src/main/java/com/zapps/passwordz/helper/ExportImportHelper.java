@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -25,6 +26,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class ExportImportHelper {
     public enum FileType {TEXT, EXCEL}
@@ -134,6 +136,10 @@ public class ExportImportHelper {
 
     private void writeLogins(ArrayList<LoginsModel> newModels) {
         /* Skips already existing ones and write new ones to the database. */
+        if (newModels.isEmpty()) {
+            CToast.warn(context, "Nothing to write");
+            return;
+        }
         ArrayList<String> results = new ArrayList<>();
         FirebaseHelper.getAllLogins(context, new FirebaseHelper.DataRetrieveListener() {
             @Override
@@ -172,6 +178,10 @@ public class ExportImportHelper {
 
     private void writeCards(ArrayList<CardsModel> newModels) {
         /* Skips already existing ones and write new ones to the database. */
+        if (newModels.isEmpty()) {
+            CToast.warn(context, "Nothing to write");
+            return;
+        }
         ArrayList<String> results = new ArrayList<>();
         FirebaseHelper.getAllCards(context, new FirebaseHelper.CardsRetrieverListener() {
             @Override
@@ -216,23 +226,35 @@ public class ExportImportHelper {
             return;
         }
         ArrayList<LoginsModel> newModels = new ArrayList<>();
+        FileInputStream fis = null;
         try {
-            FileInputStream fis = new FileInputStream(file);
+            fis = new FileInputStream(file);
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             //Iterate through each rows one by one
-            for (Row row : sheet) {
+            Iterator<Row> iterator = sheet.iterator();
+            if (!iterator.hasNext()) throw new Exception("File is corrupted.");
+            // skipping first row
+            iterator.next();
+            while (iterator.hasNext()) {
+                Row row = iterator.next();
                 ArrayList<String> values = new ArrayList<>();
                 for (Cell cell : row) values.add(cell.getStringCellValue());
                 newModels.add(new LoginsModel(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4)));
             }
-
-            fis.close();
         } catch (Exception e) {
             e.printStackTrace();
             CToast.error(context, "An error occurred while processing excel file.");
             return;
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         writeLogins(newModels);
     }
@@ -260,23 +282,35 @@ public class ExportImportHelper {
             return;
         }
         ArrayList<CardsModel> newModels = new ArrayList<>();
+        FileInputStream fis = null;
         try {
-            FileInputStream fis = new FileInputStream(file);
+            fis = new FileInputStream(file);
             HSSFWorkbook workbook = new HSSFWorkbook(fis);
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             //Iterate through each rows one by one
-            for (Row row : sheet) {
+            Iterator<Row> iterator = sheet.iterator();
+            if (!iterator.hasNext()) throw new Exception("File is corrupted.");
+            // skipping first row
+            iterator.next();
+            while (iterator.hasNext()) {
+                Row row = iterator.next();
                 ArrayList<String> values = new ArrayList<>();
                 for (Cell cell : row) values.add(cell.getStringCellValue());
                 newModels.add(new CardsModel(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4)));
             }
-
-            fis.close();
         } catch (Exception e) {
             e.printStackTrace();
             CToast.error(context, "An error occurred while processing excel file.");
             return;
+        } finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         writeCards(newModels);
     }
@@ -409,6 +443,7 @@ public class ExportImportHelper {
 
             // creating data rows
             for (int i = 0; i < list.length; i++) {
+                Log.d(TAG, "doInBackground: " + list[i].getNotes());
                 HSSFRow hssfRow = hssfSheet.createRow(i + 1);
                 HSSFCell websiteCell = hssfRow.createCell(0);
                 websiteCell.setCellValue(list[i].getWebsite());
@@ -418,19 +453,25 @@ public class ExportImportHelper {
                 passwordCell.setCellValue(list[i].getPassword());
                 HSSFCell notesCell = hssfRow.createCell(3);
                 notesCell.setCellValue(list[i].getNotes());
-                HSSFCell lastModifiedCell = hssfRow.createCell(3);
+                HSSFCell lastModifiedCell = hssfRow.createCell(4);
                 lastModifiedCell.setCellValue(list[i].getLastModified());
             }
 
             // writing to file
+            FileOutputStream fos = null;
             try {
-                FileOutputStream fos = new FileOutputStream(file);
+                fos = new FileOutputStream(file);
                 hssfWorkbook.write(fos);
-                fos.close();
                 listener.onCompletion(true, "");
             } catch (IOException e) {
                 e.printStackTrace();
                 listener.onCompletion(false, e.getMessage());
+            } finally {
+                try {
+                    if (fos != null) fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }
@@ -513,14 +554,21 @@ public class ExportImportHelper {
             }
 
             // writing to file
+            FileOutputStream fos = null;
             try {
-                FileOutputStream fos = new FileOutputStream(file);
+                fos = new FileOutputStream(file);
                 hssfWorkbook.write(fos);
                 fos.close();
                 listener.onCompletion(true, "");
             } catch (IOException e) {
                 e.printStackTrace();
                 listener.onCompletion(false, e.getMessage());
+            } finally {
+                try {
+                    if (fos != null) fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             return null;
         }
