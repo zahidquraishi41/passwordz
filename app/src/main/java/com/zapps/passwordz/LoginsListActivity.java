@@ -66,9 +66,9 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy<0 && !fab.isShown())
+                if (dy < 0 && !fab.isShown())
                     fab.show();
-                else if(dy>0 && fab.isShown())
+                else if (dy > 0 && fab.isShown())
                     fab.hide();
             }
         });
@@ -94,7 +94,7 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
     }
 
     private void refreshAdapter() {
-        FirebaseHelper.getAllLogins(this, website, new FirebaseHelper.DataRetrieveListener() {
+        FirebaseHelper.getAllLogins(this, new FirebaseHelper.DataRetrieveListener() {
             @Override
             public void onSuccess(@NonNull LoginsModel... loginsModels) {
                 ArrayList<ViewModel> list = new ArrayList<>();
@@ -102,7 +102,10 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
                     finish();
                     return;
                 }
+                ArrayList<LoginsModel> filteredLogins = new ArrayList<>();
                 for (LoginsModel loginsModel : loginsModels)
+                    if (loginsModel.getWebsite().equals(website)) filteredLogins.add(loginsModel);
+                for (LoginsModel loginsModel : filteredLogins)
                     list.add(new ViewModel(loginsModel.getUsername(), loginsModel.getPassword(), loginsModel.getLastModified(), loginsModel.getPushId()));
                 Collections.sort(list);
                 adapter.refresh(list);
