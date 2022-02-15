@@ -1,6 +1,7 @@
 package com.zapps.passwordz.helper;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -56,7 +57,9 @@ public class FirebaseHelper {
 
         LoginsModel encrypted;
         try {
-            encrypted = loginsModel.encrypt(context);
+            LoginsModel clone = (LoginsModel) loginsModel.clone();
+            clone.setLastModified(Helper.getCurrentDate());
+            encrypted = clone.encrypt(context);
         } catch (Exception e) {
             completionListener.onCompletion(false, e.getMessage());
             return;
@@ -76,7 +79,6 @@ public class FirebaseHelper {
         } else {
             reference = LOGINS_REF.child(firebaseUser.getUid()).child(encrypted.getPushId());
         }
-        encrypted.setLastModified(Helper.getCurrentDate());
 
         reference.setValue(encrypted).addOnCompleteListener(task -> {
             String message;
@@ -212,7 +214,8 @@ public class FirebaseHelper {
 
         CardsModel encrypted;
         try {
-            encrypted = model.encrypt(context);
+            CardsModel clone = (CardsModel) model.clone();
+            encrypted = clone.encrypt(context);
         } catch (Exception e) {
             listener.onCompletion(false, e.getMessage());
             return;
@@ -234,7 +237,6 @@ public class FirebaseHelper {
                 DatabaseReference reference = CARDS_REF.child(firebaseUser.getUid()).push();
                 String pushId = reference.getKey();
                 encrypted.setPushId(pushId);
-                encrypted.setLastModified(Helper.getCurrentDate());
                 reference.setValue(encrypted).addOnCompleteListener(task -> {
                     String message;
                     if (task.getException() != null && task.getException().getMessage() != null)

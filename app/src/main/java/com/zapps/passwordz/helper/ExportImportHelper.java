@@ -225,7 +225,7 @@ public class ExportImportHelper {
             for (Row row : sheet) {
                 ArrayList<String> values = new ArrayList<>();
                 for (Cell cell : row) values.add(cell.getStringCellValue());
-                newModels.add(new LoginsModel(values.get(0), values.get(1), values.get(2), values.get(3)));
+                newModels.add(new LoginsModel(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4)));
             }
 
             fis.close();
@@ -404,6 +404,8 @@ public class ExportImportHelper {
             cell2.setCellValue("Password");
             HSSFCell cell3 = headerRow.createCell(3);
             cell3.setCellValue("Notes");
+            HSSFCell cell4 = headerRow.createCell(4);
+            cell4.setCellValue("Last Modified");
 
             // creating data rows
             for (int i = 0; i < list.length; i++) {
@@ -416,6 +418,8 @@ public class ExportImportHelper {
                 passwordCell.setCellValue(list[i].getPassword());
                 HSSFCell notesCell = hssfRow.createCell(3);
                 notesCell.setCellValue(list[i].getNotes());
+                HSSFCell lastModifiedCell = hssfRow.createCell(3);
+                lastModifiedCell.setCellValue(list[i].getLastModified());
             }
 
             // writing to file

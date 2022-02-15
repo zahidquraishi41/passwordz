@@ -6,7 +6,6 @@ import android.graphics.drawable.GradientDrawable;
 
 import androidx.annotation.NonNull;
 
-import com.zapps.passwordz.helper.ExportImportHelper;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.MrCipher;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class CardsModel implements Cloneable, Comparable<CardsModel> {
-    private String pushId, lastModified;
+    private String pushId;
     public String cardNumber, validThrough, nameOnCard, cvv, cardType;
     private static final String DELIMITER = "\t\n\n";
 
@@ -38,7 +37,6 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             encrypted.setValidThrough(MrCipher.encrypt(encrypted.getValidThrough(), key));
             encrypted.setNameOnCard(MrCipher.encrypt(encrypted.getNameOnCard(), key));
             encrypted.setCvv(MrCipher.encrypt(encrypted.getCvv(), key));
-            encrypted.setLastModified(MrCipher.encrypt(encrypted.getLastModified(), key));
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
         }
@@ -55,7 +53,6 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             decrypted.setValidThrough(MrCipher.decrypt(decrypted.getValidThrough(), key));
             decrypted.setNameOnCard(MrCipher.decrypt(decrypted.getNameOnCard(), key));
             decrypted.setCvv(MrCipher.decrypt(decrypted.getCvv(), key));
-            decrypted.setLastModified(MrCipher.decrypt(decrypted.getLastModified(), key));
         } catch (Exception e) {
             throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
         }
@@ -68,14 +65,6 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
 
     public void setPushId(String pushId) {
         this.pushId = pushId;
-    }
-
-    public String getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(String lastModified) {
-        this.lastModified = lastModified;
     }
 
     public String getCardNumber() {
@@ -155,7 +144,6 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
         if (this == cardsModel) return true;
         if (cardsModel == null) return false;
         return Objects.equals(pushId, cardsModel.pushId)
-                && Objects.equals(lastModified, cardsModel.lastModified)
                 && Objects.equals(cardNumber, cardsModel.cardNumber)
                 && Objects.equals(validThrough, cardsModel.validThrough)
                 && Objects.equals(nameOnCard, cardsModel.nameOnCard)
@@ -180,10 +168,11 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
     @Override
     public String toString() {
         return "card number: " + getCardNumber() + "\n"
-                + "name on card: " + getNameOnCard() + "\n"
-                + "card type: " + getCardType() + "\n"
-                + "valid through: " + getValidThrough() + "\n"
-                + "cvv: " + getCvv() + "\n"
+                + "Name on Card: " + getNameOnCard() + "\n"
+                + "Card Type: " + getCardType() + "\n"
+                + "Valid Through: " + getValidThrough() + "\n"
+                + "CVV: " + getCvv() + "\n"
+                + "Date Modified: " + getCvv() + "\n"
                 + DELIMITER;
     }
 
@@ -193,18 +182,19 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
         String[] strCardModels = s.split(DELIMITER);
           for (String line : strCardModels) {
             String[] lines = line.split("\n", 5);
-            String cardNumber = lines[0].replaceFirst("card number: ", "");
-            String nameOnCard = lines[1].replaceFirst("name on card: ", "");
-            String cardType = lines[2].replaceFirst("card type: ", "");
-            String validThrough = lines[3].replaceFirst("valid through: ", "");
-            String cvv = lines[4].replaceFirst("cvv: ", "");
+            String cardNumber = lines[0].replaceFirst("Card Number: ", "");
+            String nameOnCard = lines[1].replaceFirst("Name on Card: ", "");
+            String cardType = lines[2].replaceFirst("Card Type: ", "");
+            String validThrough = lines[3].replaceFirst("Valid Through: ", "");
+            String cvv = lines[4].replaceFirst("CVV: ", "");
             cardsModels.add(new CardsModel(cardNumber, validThrough, nameOnCard, cvv, cardType));
         }
         return cardsModels;
     }
 
-    public CardsModel clone() throws CloneNotSupportedException {
-        return (CardsModel) this.clone();
+    @NonNull
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

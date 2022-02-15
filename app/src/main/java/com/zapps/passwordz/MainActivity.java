@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private ShakeDetector shakeDetector;
 
     /* TODO
-     * Encrypt even names of website.
-     *
      * */
 
     @Override

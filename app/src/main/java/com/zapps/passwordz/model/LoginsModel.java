@@ -8,23 +8,21 @@ import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
-    private String website, username, password, notes;
-    private String lastModified, pushId;
+    private String website, username, password, notes, lastModified;
+    private String pushId;
     private static final String DELIMITER = "\t\n\n";
 
     public LoginsModel() {
     }
 
-    public LoginsModel(String website, String username, String password, String notes) {
+    public LoginsModel(String website, String username, String password, String notes, String lastModified) {
         this.website = website;
         this.username = username;
         this.password = password;
         this.notes = notes;
-        this.pushId = "";
-        this.lastModified = "";
+        this.lastModified = lastModified;
     }
 
     public LoginsModel(String website, String username, String password) {
@@ -133,11 +131,13 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
     public String toString() {
         return "[" + getWebsite() + "]" +
                 "\n" +
-                "username: " + getUsername() +
+                "Username: " + getUsername() +
                 "\n" +
-                "password: " + getPassword() +
+                "Password: " + getPassword() +
                 "\n" +
-                "notes: " + getNotes() +
+                "Notes: " + getNotes() +
+                "\n" +
+                "Last Modified: " + getLastModified() +
                 DELIMITER;
     }
 
@@ -146,18 +146,20 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
         if (s == null || s.isEmpty()) return loginsModels;
         String[] strCardModels = s.split(DELIMITER);
         for (String strLoginModel : strCardModels) {
-            String[] lines = strLoginModel.split("\n", 4);
+            String[] lines = strLoginModel.split("\n", 5);
             String website = lines[0].substring(1, lines[0].length() - 1);
-            String username = lines[1].replaceFirst("username: ", "");
-            String password = lines[2].replaceFirst("password: ", "");
-            String notes = lines[3].replaceFirst("notes: ", "");
-            loginsModels.add(new LoginsModel(website, username, password, notes));
+            String username = lines[1].replaceFirst("Username: ", "");
+            String password = lines[2].replaceFirst("Password: ", "");
+            String notes = lines[3].replaceFirst("Notes: ", "");
+            String lastModified = lines[4].replaceFirst("Last Modified: ", "");
+            loginsModels.add(new LoginsModel(website, username, password, notes, lastModified));
         }
         return loginsModels;
     }
 
-    public LoginsModel clone() throws CloneNotSupportedException {
-        return (LoginsModel) super.clone();
+    @NonNull
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override
