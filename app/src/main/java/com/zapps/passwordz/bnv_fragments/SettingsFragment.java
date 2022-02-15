@@ -3,14 +3,17 @@ package com.zapps.passwordz.bnv_fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +45,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public static final String TAG = "SettingsFragment";
     private Context context;
     private ImageView ivProfilePic;
+    private long lastTapTime = System.currentTimeMillis();
+    private int count = 0;
+
+    private interface FileSelectionListener {
+        void onSelected(ExportImportHelper.FileType fileType);
+    }
 
     @Nullable
     @Override
@@ -100,60 +109,58 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         return view;
     }
 
+    private void selectFileDialog(String title, String message, FileSelectionListener listener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        /* using builder.setMessage(message); hides options. Create custom dialog for fancy interface.*/
+        builder.setTitle(title);
+        String[] options = {"Text File", "Excel File"};
+        builder.setItems(options, (dialogInterface, i) -> {
+            ExportImportHelper.FileType fileType = ExportImportHelper.FileType.TEXT;
+            switch (i) {
+                case 0:
+                    fileType = ExportImportHelper.FileType.TEXT;
+                    break;
+                case 1:
+                    fileType = ExportImportHelper.FileType.EXCEL;
+                    break;
+            }
+            listener.onSelected(fileType);
+        });
+        builder.create().show();
+    }
+
+    /*  other version of export function that require fingerprint before import/export.
     private void export(String which) {
         if (!Helper.isFingerprintSet(context)) {
             CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
             return;
         }
         new BiometricAuth().prompt(context, () -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Select an option");
-            String[] options = {"Text", "Excel"};
-            builder.setItems(options, (dialogInterface, i) -> {
-                ExportImportHelper.FileType fileType = ExportImportHelper.FileType.TEXT;
-                switch (i) {
-                    case 0:
-                        fileType = ExportImportHelper.FileType.TEXT;
-                        break;
-                    case 1:
-                        fileType = ExportImportHelper.FileType.EXCEL;
-                        break;
-                }
+            selectFileDialog("Save As", "Select file type to save.", fileType -> {
                 if (which.equals("cards"))
                     new ExportImportHelper(context).exportCards(fileType);
                 else if (which.equals("logins"))
                     new ExportImportHelper(context).exportLogins(fileType);
-
             });
-            builder.create().show();
+        });
+    }
+    */
+
+    private void export(String which) {
+        selectFileDialog("Save As", "Select file type to save.", fileType -> {
+            if (which.equals("cards"))
+                new ExportImportHelper(context).exportCards(fileType);
+            else if (which.equals("logins"))
+                new ExportImportHelper(context).exportLogins(fileType);
         });
     }
 
     private void _import(String which) {
-        if (!Helper.isFingerprintSet(context)) {
-            CToast.warn(context, "Please set fingerprint protection on your device to use this feature");
-            return;
-        }
-        new BiometricAuth().prompt(context, () -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Select an option");
-            String[] options = {"Text", "Excel"};
-            builder.setItems(options, (dialogInterface, i) -> {
-                ExportImportHelper.FileType fileType = ExportImportHelper.FileType.TEXT;
-                switch (i) {
-                    case 0:
-                        fileType = ExportImportHelper.FileType.TEXT;
-                        break;
-                    case 1:
-                        fileType = ExportImportHelper.FileType.EXCEL;
-                        break;
-                }
-                if (which.equals("cards"))
-                    new ExportImportHelper(context).importCards(fileType);
-                else if (which.equals("logins"))
-                    new ExportImportHelper(context).importLogins(fileType);
-            });
-            builder.create().show();
+        selectFileDialog("Import From", "Select exported file type.", fileType -> {
+            if (which.equals("cards"))
+                new ExportImportHelper(context).importCards(fileType);
+            else if (which.equals("logins"))
+                new ExportImportHelper(context).importLogins(fileType);
         });
     }
 
@@ -168,14 +175,39 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         AppCompatDelegate.setDefaultNightMode(isActivated ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
+    private void showDevDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Add Fake Accounts");
+        builder.setMessage("Type 'LOGINS' to add fake logins, Type 'CARDS' to add fake cards.");
+
+        EditText editText = new EditText(context);
+        builder.setView(editText);
+
+        builder.setPositiveButton("Ok", (dialog, which) -> {
+            String value = editText.getText().toString();
+            if (value.equals("LOGINS")) Helper.createDummyLoginsList(context);
+            else if (value.equals("CARDS")) Helper.createDummyCardsList(context);
+            else CToast.error(context, "Invalid input.");
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+        builder.show();
+    }
+
     public void about() {
+        if (System.currentTimeMillis() - lastTapTime < 800) {
+            count += 1;
+            if (count == 5) {
+                count = 0;
+                showDevDialog();
+            }
+        } else count = 0;
+        lastTapTime = System.currentTimeMillis();
         CToast.info(context, "WIP");
     }
 
     public void logout() {
         FirebaseAuth.getInstance().signOut();
         Remember.with(context).that(Helper.KEY_HASHED_PASSWORD).is(null);
-//        SharedPrefHelper.remove(context, SharedPrefHelper.KEY_HASHED_PASSWORD);
         startActivity(new Intent(context, LoginActivity.class));
         ((Activity) context).finish();
     }
