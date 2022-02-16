@@ -16,7 +16,7 @@ import java.util.Random;
 public class CardsModel implements Cloneable, Comparable<CardsModel> {
     private String pushId;
     public String cardNumber, validThrough, nameOnCard, cvv, cardType;
-    private static final String DELIMITER = "\t\n\n";
+    private static final String DELIMITER = "\n\t\n";
 
     public CardsModel() {
     }

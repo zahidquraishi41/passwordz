@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
     private String website, username, password, notes, lastModified;
     private String pushId;
-    private static final String DELIMITER = "\t\n\n";
+    private static final String DELIMITER = "\n\t\n";
 
     public LoginsModel() {
     }
@@ -135,9 +135,9 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
                 "\n" +
                 "Password: " + getPassword() +
                 "\n" +
-                "Notes: " + getNotes() +
-                "\n" +
                 "Last Modified: " + getLastModified() +
+                "\n" +
+                "Notes: " + getNotes() +
                 DELIMITER;
     }
 
@@ -150,8 +150,8 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
             String website = lines[0].substring(1, lines[0].length() - 1);
             String username = lines[1].replaceFirst("Username: ", "");
             String password = lines[2].replaceFirst("Password: ", "");
-            String notes = lines[3].replaceFirst("Notes: ", "");
-            String lastModified = lines[4].replaceFirst("Last Modified: ", "");
+            String lastModified = lines[3].replaceFirst("Last Modified: ", "");
+            String notes = lines[4].replaceFirst("Notes: ", "");
             loginsModels.add(new LoginsModel(website, username, password, notes, lastModified));
         }
         return loginsModels;
