@@ -11,13 +11,15 @@ import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Random;
 
 public class CardsModel implements Cloneable, Comparable<CardsModel> {
     private String pushId;
     public String cardNumber, validThrough, nameOnCard, cvv, cardType;
     private static final String DELIMITER = "\t\n\n";
 
-    public CardsModel() {}
+    public CardsModel() {
+    }
 
     public CardsModel(String cardNumber, String validThrough, String nameOnCard, String cvv, String cardType) {
         this.cardNumber = cardNumber;
@@ -126,18 +128,20 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
     }
 
     public GradientDrawable cardBackground() {
-        GradientDrawable gradientDrawable = gradient("#f857a6", "#ff5858");
-        if (cardNumber == null || cardNumber.isEmpty() || cardNumber.startsWith("1"))
-            gradientDrawable = gradient("#f857a6", "#ff5858");
-        if (cardNumber.startsWith("2")) gradientDrawable = gradient("#4b6cb7", "#182848");
-        if (cardNumber.startsWith("3")) gradientDrawable = gradient("#1F1C2C", "#928DAB");
-        if (cardNumber.startsWith("4")) gradientDrawable = gradient("#a044ff", "#1F1C18");
-        if (cardNumber.startsWith("5")) gradientDrawable = gradient("#f46b45", "#eea849");
-        if (cardNumber.startsWith("6")) gradientDrawable = gradient("#4CB8C4", "#3CD3AD");
-        if (cardNumber.startsWith("7")) gradientDrawable = gradient("#6a3093", "#a044ff");
-        if (cardNumber.startsWith("8")) gradientDrawable = gradient("#AA076B", "#61045F");
-        if (cardNumber.startsWith("9")) gradientDrawable = gradient("#76b852", "#8DC26F");
-        return gradientDrawable;
+        ArrayList<GradientDrawable> gradientDrawables = new ArrayList<>();
+        gradientDrawables.add(gradient("#f857a6", "#ff5858"));
+        gradientDrawables.add(gradient("#4b6cb7", "#182848"));
+        gradientDrawables.add(gradient("#1F1C2C", "#928DAB"));
+        gradientDrawables.add(gradient("#a044ff", "#1F1C18"));
+        gradientDrawables.add(gradient("#f46b45", "#eea849"));
+        gradientDrawables.add(gradient("#4CB8C4", "#3CD3AD"));
+        gradientDrawables.add(gradient("#6a3093", "#a044ff"));
+        gradientDrawables.add(gradient("#AA076B", "#61045F"));
+        gradientDrawables.add(gradient("#76b852", "#8DC26F"));
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(gradientDrawables.size());
+        return gradientDrawables.get(randomIndex);
     }
 
     public boolean equals(CardsModel cardsModel) {
@@ -167,12 +171,11 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
     @NonNull
     @Override
     public String toString() {
-        return "card number: " + getCardNumber() + "\n"
+        return "Card Number: " + getCardNumber() + "\n"
                 + "Name on Card: " + getNameOnCard() + "\n"
                 + "Card Type: " + getCardType() + "\n"
                 + "Valid Through: " + getValidThrough() + "\n"
                 + "CVV: " + getCvv() + "\n"
-                + "Date Modified: " + getCvv() + "\n"
                 + DELIMITER;
     }
 
@@ -180,7 +183,7 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
         ArrayList<CardsModel> cardsModels = new ArrayList<>();
         if (s == null || s.isEmpty()) return cardsModels;
         String[] strCardModels = s.split(DELIMITER);
-          for (String line : strCardModels) {
+        for (String line : strCardModels) {
             String[] lines = line.split("\n", 5);
             String cardNumber = lines[0].replaceFirst("Card Number: ", "");
             String nameOnCard = lines[1].replaceFirst("Name on Card: ", "");
