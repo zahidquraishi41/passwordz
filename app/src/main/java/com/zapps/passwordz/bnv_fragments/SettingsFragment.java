@@ -29,6 +29,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
+import com.zapps.passwordz.AboutUsActivity;
 import com.zapps.passwordz.LoginActivity;
 import com.zapps.passwordz.R;
 import com.zapps.passwordz.dialogs.DeleteConfirmDialog;
@@ -45,8 +46,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public static final String TAG = "SettingsFragment";
     private Context context;
     private ImageView ivProfilePic;
-    private long lastTapTime = System.currentTimeMillis();
-    private int count = 0;
 
     private interface FileSelectionListener {
         void onSelected(ExportImportHelper.FileType fileType);
@@ -175,34 +174,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         AppCompatDelegate.setDefaultNightMode(isActivated ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
-    private void showDevDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Fake Accounts");
-        builder.setMessage("Type 'LOGINS' to add fake logins, Type 'CARDS' to add fake cards.");
-
-        EditText editText = new EditText(context);
-        builder.setView(editText);
-
-        builder.setPositiveButton("Ok", (dialog, which) -> {
-            String value = editText.getText().toString();
-            if (value.equals("LOGINS")) Helper.createDummyLoginsList(context);
-            else if (value.equals("CARDS")) Helper.createDummyCardsList(context);
-            else CToast.error(context, "Invalid input.");
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        builder.show();
-    }
-
     public void about() {
-        if (System.currentTimeMillis() - lastTapTime < 800) {
-            count += 1;
-            if (count == 5) {
-                count = 0;
-                showDevDialog();
-            }
-        } else count = 0;
-        lastTapTime = System.currentTimeMillis();
-        CToast.info(context, "WIP");
+        startActivity(new Intent(context, AboutUsActivity.class));
     }
 
     public void logout() {

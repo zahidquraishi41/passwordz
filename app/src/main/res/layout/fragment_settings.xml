@@ -50,7 +50,6 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-
             </RelativeLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -85,7 +84,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
 
         </com.google.android.material.card.MaterialCardView>
 

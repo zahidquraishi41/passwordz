@@ -52,4 +52,5 @@
     <string name="import_cards">Import Cards</string>
     <string name="export_logins">Export Logins</string>
     <string name="import_logins">Import Logins</string>
+    <string name="app_icon">App Icon</string>
 </resources>
