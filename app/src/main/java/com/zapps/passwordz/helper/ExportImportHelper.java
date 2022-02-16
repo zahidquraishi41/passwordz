@@ -266,7 +266,14 @@ public class ExportImportHelper {
             return;
         }
         CToast.info(context, "Importing...");
-        ArrayList<LoginsModel> newModels = LoginsModel.fromString(readFile(file));
+        ArrayList<LoginsModel> newModels;
+        try {
+            newModels = LoginsModel.fromString(readFile(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+            CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
+            return;
+        }
         if (newModels.isEmpty()) {
             CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
             return;
@@ -322,7 +329,14 @@ public class ExportImportHelper {
             return;
         }
         CToast.info(context, "Importing...");
-        ArrayList<CardsModel> newModels = CardsModel.fromString(readFile(file));
+        ArrayList<CardsModel> newModels;
+        try {
+            newModels = CardsModel.fromString(readFile(file));
+        } catch (Exception e) {
+            e.printStackTrace();
+            CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
+            return;
+        }
         if (newModels.isEmpty()) {
             CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
             return;
