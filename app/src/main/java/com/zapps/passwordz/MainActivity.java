@@ -21,11 +21,8 @@ import com.zapps.passwordz.bnv_fragments.LoginsListFragment;
 import com.zapps.passwordz.bnv_fragments.SettingsFragment;
 import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.ConnectionObserver;
-import com.zapps.passwordz.helper.FirebaseHelper;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.PasswordGenerator;
-import com.zapps.passwordz.model.CardsModel;
-import com.zapps.passwordz.model.LoginsModel;
 
 import java.util.concurrent.Executor;
 
@@ -39,9 +36,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private SettingsFragment settingsFragment;
     private SensorManager sensorManager;
     private ShakeDetector shakeDetector;
-
-    /* TODO
-     * */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         new ConnectionObserver(this, this, () -> {
             if (isAuthenticated) runOnUiThread(this::displaySelectedFragment);
         });
-        /*
-        createDummyCardsList();
-        createDummyLoginsList();
-        */
     }
 
     private void authenticate() {

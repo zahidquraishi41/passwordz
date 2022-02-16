@@ -1,7 +1,6 @@
 package com.zapps.passwordz.helper;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 

@@ -219,12 +219,12 @@ public class ExportImportHelper {
     }
 
     private void importExcelLogins() {
-        CToast.info(context, "Importing...");
         File file = new File(LOGINS_EXCEL);
         if (!file.exists()) {
             CToast.error(context, "No exported login found.");
             return;
         }
+        CToast.info(context, "Importing...");
         ArrayList<LoginsModel> newModels = new ArrayList<>();
         FileInputStream fis = null;
         try {
@@ -260,12 +260,12 @@ public class ExportImportHelper {
     }
 
     private void importLogins() {
-        CToast.info(context, "Importing...");
         File file = new File(LOGINS_TEXT);
         if (!file.exists()) {
             CToast.error(context, "No exported login found.");
             return;
         }
+        CToast.info(context, "Importing...");
         ArrayList<LoginsModel> newModels = LoginsModel.fromString(readFile(file));
         if (newModels.isEmpty()) {
             CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
@@ -275,12 +275,12 @@ public class ExportImportHelper {
     }
 
     private void importExcelCards() {
-        CToast.info(context, "Importing...");
         File file = new File(CARDS_EXCEL);
         if (!file.exists()) {
             CToast.error(context, "No exported login found.");
             return;
         }
+        CToast.info(context, "Importing...");
         ArrayList<CardsModel> newModels = new ArrayList<>();
         FileInputStream fis = null;
         try {
@@ -316,12 +316,12 @@ public class ExportImportHelper {
     }
 
     private void importCards() {
-        CToast.info(context, "Importing...");
         File file = new File(CARDS_TEXT);
         if (!file.exists()) {
             CToast.error(context, "No exported cards found.");
             return;
         }
+        CToast.info(context, "Importing...");
         ArrayList<CardsModel> newModels = CardsModel.fromString(readFile(file));
         if (newModels.isEmpty()) {
             CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);

@@ -233,13 +233,13 @@ public class Helper {
         LoginsModel google11 = new LoginsModel("Google.com", "baldwin.brown@gmail.com", "(SF_+AFOj1oi2j1");
         LoginsModel google12 = new LoginsModel("Google.com", "herb.geis@gmail.com", "asO(OFK11");
         LoginsModel google13 = new LoginsModel("Google.com", "marty.pascall@gmail.com", "KAS_@!$O9921");
-        LoginsModel google14 = new LoginsModel("Google.com", "austin.robbins@gmail.com", "OK!!_@#!$k)(*");
+        LoginsModel google14 = new LoginsModel("Google.com", "austin.robbins@gmail.com", "K!!_@#!$R3)(*");
         LoginsModel google15 = new LoginsModel("Google.com", "warwick.hancock@gmail.com", "ijGS***@!#!");
         LoginsModel google16 = new LoginsModel("Google.com", "johnny.fields@gmail.com", "kIS_K1AOF(99");
         LoginsModel google17 = new LoginsModel("Google.com", "gregory.goodwin@gmail.com", "PIJ(@!!214");
-        LoginsModel google18 = new LoginsModel("Google.com", "lovell.baldwin@gmail.com", "strong");
-        LoginsModel google19 = new LoginsModel("Google.com", "kennard.fletcher@gmail.com", "password_+");
-        LoginsModel google20 = new LoginsModel("Google.com", "jerry.fennimore@gmail.com", "KP(@#K#");
+        LoginsModel google18 = new LoginsModel("Google.com", "lovell.baldwin@gmail.com", "J8<$02,111;42");
+        LoginsModel google19 = new LoginsModel("Google.com", "kennard.fletcher@gmail.com", "Kennard@21993!");
+        LoginsModel google20 = new LoginsModel("Google.com", "jerry.fennimore@gmail.com", "KP(@#K#9AJ");
         saveAll(context, google1, google2, google3, google4, google5, google6, google7, google8, google9, google10, google11, google12, google13, google14, google15, google16, google17, google18, google19, google20);
 
 

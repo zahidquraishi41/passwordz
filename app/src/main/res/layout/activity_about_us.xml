@@ -28,7 +28,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-smallcaps"
             android:gravity="center"
-            android:text="About"
+            android:text="@string/about"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textSize="27sp" />
 
@@ -52,7 +52,7 @@
                 android:padding="16dp"
                 android:layout_height="match_parent"
                 android:background="?android:selectableItemBackground"
-                android:text="Version\n1.0"
+                android:text="@string/version"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textSize="18sp" />
 

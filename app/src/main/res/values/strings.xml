@@ -29,7 +29,6 @@
     <string name="add_account">Add Account</string>
     <string name="add_login">Add Login</string>
     <string name="edit_login">Edit Login</string>
-    <string name="export_passwords">Export Passwords</string>
     <string name="card_number">Card Number</string>
     <string name="name_on_card">Name on Card</string>
     <string name="valid_through">Valid Through</string>
@@ -44,13 +43,13 @@
     <string name="cvv">CVV</string>
     <string name="cardholder_name">CARDHOLDER NAME</string>
     <string name="valid_thru">VALID THRU</string>
-    <string name="remove_all_passwords">Remove All Passwords</string>
     <string name="remove_all_logins">Remove All Logins</string>
     <string name="remove_all_cards">Remove All Cards</string>
-    <string name="import_passwords">Import Passwords</string>
     <string name="export_cards">Export Cards</string>
     <string name="import_cards">Import Cards</string>
     <string name="export_logins">Export Logins</string>
     <string name="import_logins">Import Logins</string>
     <string name="app_icon">App Icon</string>
+    <string name="version">Version\n1.0</string>
+    <string name="delete_account">Delete Account</string>
 </resources>

@@ -23,10 +23,11 @@ public class PasswordGenerator {
     }
 
     public static String generate(int passwordLength) {
-        String caps_alphabets = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
-        String small_alphabets = "abcdefghijklmnpqrstuvwxyz";
+        // I have removed characters which look like others eg, 0 (zero) and O.
+        String caps_alphabets = "ABCDEFGHJKMNPQRSTUVWXYZ";
+        String small_alphabets = "abcdefghjkmnpqrstuvwxyz";
         String numbers = "123456789";
-        String symbols = "`~!@#$%^&*()-_=+]}|[{;:,<.>?";
+        String symbols = "~!@#$%^&*()-_=+]}[{;:<>?";
         StringBuilder passwordBuffer = new StringBuilder();
         passwordBuffer.append(choice(caps_alphabets));
         passwordBuffer.append(choice(small_alphabets));

@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:padding="8dp"
-        android:text="Delete Account"
+        android:text="@string/delete_account"
         app:backgroundTint="@android:color/holo_red_dark" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

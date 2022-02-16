@@ -1,22 +1,19 @@
 package com.zapps.passwordz;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
-
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
 import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.Helper;
 
 public class AboutUsActivity extends AppCompatActivity {
-    private TextView tvAbout;
-    private View tvVersionInfo;
     private long lastTapTime = System.currentTimeMillis();
     private int count = 0;
 
@@ -25,8 +22,8 @@ public class AboutUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
 
-        tvAbout = findViewById(R.id.tv_about);
-        tvVersionInfo = findViewById(R.id.tv_version_info);
+        TextView tvAbout = findViewById(R.id.tv_about);
+        View tvVersionInfo = findViewById(R.id.tv_version_info);
 
         tvVersionInfo.setOnClickListener(view -> versionInfo());
         String AboutApp = "This Project aim at developing software that can be used for securing their email id’s and passwords. This project is useful because we generally forget our either email id’s or passwords and if we note down on a diary or any other paper anyone can watch it and misuse our email id. It is simple and convenient for security.";

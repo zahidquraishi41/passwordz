@@ -3,17 +3,14 @@ package com.zapps.passwordz.bnv_fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +38,6 @@ import com.zapps.passwordz.helper.Remember;
 
 import java.util.concurrent.Executor;
 
-// TODO remove before commit: currently testing alert dialog
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, ProfilePicFragment.ProfilePicChangeListener {
     public static final String TAG = "SettingsFragment";
     private Context context;

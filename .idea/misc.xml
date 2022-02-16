@@ -76,8 +76,10 @@
         <entry key="..\:/Users/Zahid/AndroidStudioProjects/Passwordz/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.15989583333333332" />
         <entry key="..\:/Users/Zahid/AndroidStudioProjects/Passwordz/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15989583333333332" />
         <entry key="app/src/main/res/layout/activity_about_us.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_add_card.xml" value="0.1609375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.34010416666666665" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.34010416666666665" />
+        <entry key="app/src/main/res/layout/layout_delete_confirmation.xml" value="0.11354166666666667" />
         <entry key="app/src/main/res/layout/layout_title_line.xml" value="0.34010416666666665" />
         <entry key="app/src/main/res/layout/row_account.xml" value="0.34010416666666665" />
         <entry key="app/src/main/res/layout/row_profile_pic.xml" value="0.34010416666666665" />
