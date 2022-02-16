@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menuCopyUsername"
+        android:id="@+id/menu_copy_username"
         android:title="@string/copy_username"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menuCopyPassword"
+        android:id="@+id/menu_copy_password"
         android:title="@string/copy_password"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menuDelete"
+        android:id="@+id/menu_delete"
         android:title="@string/delete"
         app:showAsAction="never" />
 

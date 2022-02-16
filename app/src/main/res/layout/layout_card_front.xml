@@ -6,7 +6,7 @@
     android:padding="16dp">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvCardType"
+        android:id="@+id/tv_card_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -14,27 +14,27 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivChip"
+        android:id="@+id/iv_chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvCardType"
+        android:layout_below="@id/tv_card_type"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_chip" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvCardNumber"
+        android:id="@+id/tv_card_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?android:textColorPrimary"
-        android:layout_below="@id/ivChip"
+        android:layout_below="@id/iv_chip"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="?android:textColorPrimary" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvCardNumber"
+        android:layout_below="@id/tv_card_number"
         android:layout_alignParentStart="true"
         android:orientation="vertical">
 
@@ -46,7 +46,7 @@
             android:text="@string/cardholder_name" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvNameOnCard"
+            android:id="@+id/tv_name_on_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="none"
@@ -54,14 +54,13 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/llValidThrough"
+        android:id="@+id/ll_valid_through"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvCardNumber"
+        android:layout_below="@id/tv_card_number"
         android:layout_alignParentEnd="true"
         android:orientation="vertical">
 
@@ -73,7 +72,7 @@
             android:text="@string/valid_thru" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvValidThrough"
+            android:id="@+id/tv_valid_through"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ellipsize="none"
@@ -82,15 +81,14 @@
             android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvCardNumber"
+        android:layout_below="@id/tv_card_number"
         android:layout_marginEnd="16dp"
-        android:layout_toStartOf="@id/llValidThrough"
+        android:layout_toStartOf="@id/ll_valid_through"
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
@@ -101,7 +99,7 @@
             android:text="@string/cvv" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvCVV"
+            android:id="@+id/tv_cvv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ellipsize="none"

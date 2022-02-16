@@ -41,7 +41,7 @@ public class ProfilePicFragment extends BottomSheetDialogFragment implements Ada
         profileImages = new int[]{R.drawable.ic_bee, R.drawable.ic_cat, R.drawable.ic_hen,
                 R.drawable.ic_koala, R.drawable.ic_lion, R.drawable.ic_owl, R.drawable.ic_penguin,
                 R.drawable.ic_toad, R.drawable.ic_toucan, R.drawable.ic_fox};
-        GridView gridView = view.findViewById(R.id.gridView);
+        GridView gridView = view.findViewById(R.id.grid_view);
         gridView.setAdapter(new Adapter(profileImages, context));
         gridView.setOnItemClickListener(this);
         return view;
@@ -92,7 +92,7 @@ public class ProfilePicFragment extends BottomSheetDialogFragment implements Ada
                 inflater = LayoutInflater.from(context);
             if (view == null)
                 view = inflater.inflate(R.layout.row_profile_pic, viewGroup, false);
-            ImageView imageView = view.findViewById(R.id.ivProfileIcon);
+            ImageView imageView = view.findViewById(R.id.iv_profile_icon);
             Picasso.get().load(images[i]).into(imageView);
             return view;
         }

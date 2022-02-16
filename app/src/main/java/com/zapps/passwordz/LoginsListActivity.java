@@ -53,13 +53,13 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
             finish();
             return;
         }
-        FloatingActionButton fab = findViewById(R.id.fabAddLogins);
-        progressBar = findViewById(R.id.progressBar);
-        ImageView ivWebsiteIcon = findViewById(R.id.ivWebsiteIcon);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        TextView tvWebsite = findViewById(R.id.tvWebsite);
+        FloatingActionButton fab = findViewById(R.id.fab_add_logins);
+        progressBar = findViewById(R.id.progress_bar);
+        ImageView ivWebsiteIcon = findViewById(R.id.iv_website_icon);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        TextView tvWebsite = findViewById(R.id.tv_website);
         linearLayoutManager = new LinearLayoutManager(this);
-        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -183,9 +183,9 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvUsername = itemView.findViewById(R.id.tvUsername);
-            tvLastModified = itemView.findViewById(R.id.tvLastModified);
-            ivAccountOptions = itemView.findViewById(R.id.ivOptions);
+            tvUsername = itemView.findViewById(R.id.tv_username);
+            tvLastModified = itemView.findViewById(R.id.tv_last_modified);
+            ivAccountOptions = itemView.findViewById(R.id.iv_options);
         }
 
         public void setData(ViewModel data) {
@@ -195,11 +195,11 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
             popupMenu.getMenuInflater().inflate(R.menu.menu_account_options, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 int id = menuItem.getItemId();
-                if (id == R.id.menuCopyUsername)
+                if (id == R.id.menu_copy_username)
                     Helper.copyToClipboard(itemView.getContext(), adapter.list.get(getBindingAdapterPosition()).getUsername());
-                if (id == R.id.menuCopyPassword)
+                if (id == R.id.menu_copy_password)
                     Helper.copyToClipboard(itemView.getContext(), adapter.list.get(getBindingAdapterPosition()).getPassword());
-                if (id == R.id.menuDelete) {
+                if (id == R.id.menu_delete) {
                     String confirmationText = getString(R.string.delete_confirmation_text)
                             .replace("USERNAME", "\"" + data.getUsername() + "\"")
                             .replace("WEBSITE", "\"" + website + "\"");

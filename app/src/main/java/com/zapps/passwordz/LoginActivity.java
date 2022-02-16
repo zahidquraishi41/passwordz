@@ -27,11 +27,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        MaterialButton btnLogin = findViewById(R.id.btnLogin);
-        MaterialButton btnSignUp = findViewById(R.id.btnSignUp);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
+        etUsername = findViewById(R.id.et_username);
+        etPassword = findViewById(R.id.et_password);
+        MaterialButton btnLogin = findViewById(R.id.btn_login);
+        MaterialButton btnSignUp = findViewById(R.id.btn_sign_up);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         enabler = new Enabler(etUsername, etPassword, btnLogin, btnSignUp);
         enabler.setProgressBar(progressBar);

@@ -21,7 +21,7 @@
                 android:padding="16dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/ivProfilePic"
+                    android:id="@+id/iv_profile_pic"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_cat" />
@@ -30,11 +30,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_toEndOf="@+id/ivProfilePic"
+                    android:layout_toEndOf="@+id/iv_profile_pic"
                     android:orientation="vertical">
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvFullName"
+                        android:id="@+id/tv_full_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -42,7 +42,7 @@
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvUsername"
+                        android:id="@+id/tv_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/username"
@@ -66,7 +66,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/smNightMode"
+                    android:id="@+id/sm_night_mode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -75,7 +75,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/smShowShakePrompt"
+                    android:id="@+id/sm_show_shake_prompt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -99,7 +99,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvExportLogins"
+                    android:id="@+id/tv_export_logins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -110,7 +110,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvExportCards"
+                    android:id="@+id/tv_export_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -121,7 +121,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvImportLogins"
+                    android:id="@+id/tv_import_logins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -132,7 +132,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvImportCards"
+                    android:id="@+id/tv_import_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -143,7 +143,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvRemoveAllLogins"
+                    android:id="@+id/tv_remove_all_logins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -154,7 +154,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvRemoveAllCards"
+                    android:id="@+id/tv_remove_all_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -165,7 +165,6 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -181,7 +180,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvAbout"
+                    android:id="@+id/tv_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
@@ -192,7 +191,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvLogout"
+                    android:id="@+id/tv_logout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"

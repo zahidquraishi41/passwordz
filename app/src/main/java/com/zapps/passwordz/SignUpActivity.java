@@ -36,12 +36,12 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        etFullName = findViewById(R.id.etFullName);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        tilPassword = findViewById(R.id.tilPassword);
-        MaterialButton btnSignUp = findViewById(R.id.btnSignUp);
-        ProgressBar progressBar = findViewById(R.id.progressBar);
+        etFullName = findViewById(R.id.et_full_name);
+        etUsername = findViewById(R.id.et_username);
+        etPassword = findViewById(R.id.et_password);
+        tilPassword = findViewById(R.id.til_password);
+        MaterialButton btnSignUp = findViewById(R.id.btn_sign_up);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         firebaseAuth = FirebaseAuth.getInstance();
         etPassword.addTextChangedListener(new TextWatcher() {

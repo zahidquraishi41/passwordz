@@ -52,9 +52,9 @@ public class DeleteConfirmDialog extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_delete_confirmation, container, false);
-        btnDelete = view.findViewById(R.id.btnDelete);
-        EditText etConfirmationCode = view.findViewById(R.id.etConfirmationCode);
-        TextView tvConfirmationText = view.findViewById(R.id.tvConfirmationText);
+        btnDelete = view.findViewById(R.id.btn_delete);
+        EditText etConfirmationCode = view.findViewById(R.id.et_confirmation_code);
+        TextView tvConfirmationText = view.findViewById(R.id.tv_confirmation_text);
 
         tvConfirmationText.setText(message);
         btnDelete.setEnabled(false);

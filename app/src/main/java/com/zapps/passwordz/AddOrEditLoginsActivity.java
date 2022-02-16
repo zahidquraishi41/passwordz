@@ -44,17 +44,17 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_logins);
 
-        ProgressBar progressBar = findViewById(R.id.progressBar);
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
         etWebsite = findViewById(R.id.etWebsite);
-        etUsername = findViewById(R.id.etUsername);
-        etPassword = findViewById(R.id.etPassword);
-        tilPassword = findViewById(R.id.tilPassword);
+        etUsername = findViewById(R.id.et_username);
+        etPassword = findViewById(R.id.et_password);
+        tilPassword = findViewById(R.id.til_password);
         etNotes = findViewById(R.id.etNotes);
-        TextView tvTitle = findViewById(R.id.tvTitle);
+        TextView tvTitle = findViewById(R.id.tv_title);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shakeDetector = new ShakeDetector(() -> etPassword.setText(Helper.generatePassword(PasswordGenerator.RECOMMENDED_PASSWORD_LENGTH)));
         shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_LIGHT);
-        enabler = new Enabler(etWebsite, etUsername, etPassword, etNotes, findViewById(R.id.btnSave));
+        enabler = new Enabler(etWebsite, etUsername, etPassword, etNotes, findViewById(R.id.btn_save));
         enabler.setProgressBar(progressBar);
         etPassword.addTextChangedListener(new TextWatcher() {
             @Override

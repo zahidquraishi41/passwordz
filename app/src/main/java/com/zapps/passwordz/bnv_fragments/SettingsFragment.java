@@ -51,17 +51,17 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        ivProfilePic = view.findViewById(R.id.ivProfilePic);
-        SwitchMaterial smNightMode = view.findViewById(R.id.smNightMode);
+        ivProfilePic = view.findViewById(R.id.iv_profile_pic);
+        SwitchMaterial smNightMode = view.findViewById(R.id.sm_night_mode);
         smNightMode.setOnCheckedChangeListener(this);
         smNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO);
-        view.findViewById(R.id.tvExportLogins).setOnClickListener(view12 -> export("logins"));
-        view.findViewById(R.id.tvExportCards).setOnClickListener(view12 -> export("cards"));
-        view.findViewById(R.id.tvAbout).setOnClickListener(view12 -> about());
-        view.findViewById(R.id.tvLogout).setOnClickListener(view12 -> logout());
-        view.findViewById(R.id.tvImportLogins).setOnClickListener(view14 -> _import("logins"));
-        view.findViewById(R.id.tvImportCards).setOnClickListener(view14 -> _import("cards"));
-        view.findViewById(R.id.tvRemoveAllLogins).setOnClickListener(view13 -> {
+        view.findViewById(R.id.tv_export_logins).setOnClickListener(view12 -> export("logins"));
+        view.findViewById(R.id.tv_export_cards).setOnClickListener(view12 -> export("cards"));
+        view.findViewById(R.id.tv_about).setOnClickListener(view12 -> about());
+        view.findViewById(R.id.tv_logout).setOnClickListener(view12 -> logout());
+        view.findViewById(R.id.tv_import_logins).setOnClickListener(view14 -> _import("logins"));
+        view.findViewById(R.id.tv_import_cards).setOnClickListener(view14 -> _import("cards"));
+        view.findViewById(R.id.tv_remove_all_logins).setOnClickListener(view13 -> {
             DeleteConfirmDialog dialog = new DeleteConfirmDialog(
                     DeleteConfirmDialog.ACTION_DELETE_ALL_LOGINS,
                     "",
@@ -70,7 +70,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             );
             dialog.show(getChildFragmentManager(), null);
         });
-        view.findViewById(R.id.tvRemoveAllCards).setOnClickListener(view13 -> {
+        view.findViewById(R.id.tv_remove_all_cards).setOnClickListener(view13 -> {
             DeleteConfirmDialog dialog = new DeleteConfirmDialog(
                     DeleteConfirmDialog.ACTION_DELETE_ALL_CARDS,
                     "",
@@ -80,7 +80,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             dialog.show(getChildFragmentManager(), null);
         });
 
-        SwitchMaterial smShowShakePrompt = view.findViewById(R.id.smShowShakePrompt);
+        SwitchMaterial smShowShakePrompt = view.findViewById(R.id.sm_show_shake_prompt);
         Remember.Z shakePrompt = Remember.with(context).that(Helper.KEY_SHOW_SHAKE_PROMPT);
         smShowShakePrompt.setChecked(shakePrompt.was(null) || shakePrompt.was("true"));
         smShowShakePrompt.setOnCheckedChangeListener((compoundButton, checked) -> {
@@ -89,8 +89,8 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
             else Remember.with(context).that(Helper.KEY_SHOW_SHAKE_PROMPT).is("false");
         });
 
-        TextView tvFullName = view.findViewById(R.id.tvFullName);
-        TextView tvUsername = view.findViewById(R.id.tvUsername);
+        TextView tvFullName = view.findViewById(R.id.tv_full_name);
+        TextView tvUsername = view.findViewById(R.id.tv_username);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             tvFullName.setText(user.getDisplayName());

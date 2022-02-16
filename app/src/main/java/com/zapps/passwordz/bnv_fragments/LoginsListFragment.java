@@ -51,11 +51,11 @@ public class LoginsListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_logins_list, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        progressBar = view.findViewById(R.id.progressBar);
-        tvMessage = view.findViewById(R.id.tvMessage);
-        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        FloatingActionButton fabAddLogins = view.findViewById(R.id.fabAddLogins);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        progressBar = view.findViewById(R.id.progress_bar);
+        tvMessage = view.findViewById(R.id.tv_message);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        FloatingActionButton fabAddLogins = view.findViewById(R.id.fab_add_logins);
 
         linearLayoutManager = new LinearLayoutManager(context);
         adapter = new Adapter();
@@ -167,9 +167,9 @@ public class LoginsListFragment extends Fragment {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvSubtitle = itemView.findViewById(R.id.tvSubtitle);
-            ivFavIcon = itemView.findViewById(R.id.ivIcon);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvSubtitle = itemView.findViewById(R.id.tv_subtitle);
+            ivFavIcon = itemView.findViewById(R.id.iv_icon);
         }
 
         public void setData(ViewModel data) {

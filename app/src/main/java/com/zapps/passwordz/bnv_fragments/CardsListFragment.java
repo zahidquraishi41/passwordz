@@ -44,10 +44,10 @@ public class CardsListFragment extends Fragment implements DeleteConfirmDialog.D
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cards, container, false);
-        tvMessage = view.findViewById(R.id.tvMessage);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        progressBar = view.findViewById(R.id.progressBar);
-        FloatingActionButton fabAddCard = view.findViewById(R.id.fabAddCards);
+        tvMessage = view.findViewById(R.id.tv_message);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        progressBar = view.findViewById(R.id.progress_bar);
+        FloatingActionButton fabAddCard = view.findViewById(R.id.fab_add_cards);
 
         adapter = new Adapter();
         linearLayoutManager = new LinearLayoutManager(context);
@@ -173,11 +173,11 @@ public class CardsListFragment extends Fragment implements DeleteConfirmDialog.D
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvCardNumber = itemView.findViewById(R.id.tvCardNumber);
-            tvValidThrough = itemView.findViewById(R.id.tvValidThrough);
-            tvNameOnCard = itemView.findViewById(R.id.tvNameOnCard);
-            tvCVV = itemView.findViewById(R.id.tvCVV);
-            tvCardType = itemView.findViewById(R.id.tvCardType);
+            tvCardNumber = itemView.findViewById(R.id.tv_card_number);
+            tvValidThrough = itemView.findViewById(R.id.tv_valid_through);
+            tvNameOnCard = itemView.findViewById(R.id.tv_name_on_card);
+            tvCVV = itemView.findViewById(R.id.tv_cvv);
+            tvCardType = itemView.findViewById(R.id.tv_card_type);
             itemView.setOnLongClickListener(view -> {
                 CardsModel model = adapter.getItem(getAbsoluteAdapterPosition());
                 String confirmationText = getString(R.string.card_delete)

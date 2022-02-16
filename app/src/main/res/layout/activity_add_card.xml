@@ -10,12 +10,12 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/llForm"
+        android:layout_above="@id/ll_form"
         android:layout_marginBottom="40dp"
         android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
@@ -29,7 +29,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/llForm"
+        android:id="@+id/ll_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -45,7 +45,7 @@
             android:hint="@string/name_on_card">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNameOnCard"
+                android:id="@+id/et_name_on_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -61,7 +61,7 @@
             android:hint="@string/card_number">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etCardNumber"
+                android:id="@+id/et_card_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content">
 
             <AutoCompleteTextView
-                android:id="@+id/actvCardType"
+                android:id="@+id/actv_card_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/card_type"
@@ -98,7 +98,7 @@
                 android:hint="@string/valid_through">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etValidThrough"
+                    android:id="@+id/et_valid_through"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -119,7 +119,7 @@
                 android:hint="@string/cvv">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCVV"
+                    android:id="@+id/et_cvv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -130,7 +130,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSave"
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

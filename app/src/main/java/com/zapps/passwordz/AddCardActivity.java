@@ -26,18 +26,18 @@ public class AddCardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
-        etNameOnCard = findViewById(R.id.etNameOnCard);
-        etCardNumber = findViewById(R.id.etCardNumber);
-        etValidThrough = findViewById(R.id.etValidThrough);
-        etCVV = findViewById(R.id.etCVV);
-        actvCardType = findViewById(R.id.actvCardType);
+        etNameOnCard = findViewById(R.id.et_name_on_card);
+        etCardNumber = findViewById(R.id.et_card_number);
+        etValidThrough = findViewById(R.id.et_valid_through);
+        etCVV = findViewById(R.id.et_cvv);
+        actvCardType = findViewById(R.id.actv_card_type);
 
-        enabler = new Enabler(etNameOnCard, etCardNumber, etCVV, findViewById(R.id.btnSave));
-        enabler.setProgressBar(findViewById(R.id.progressBar));
+        enabler = new Enabler(etNameOnCard, etCardNumber, etCVV, findViewById(R.id.btn_save));
+        enabler.setProgressBar(findViewById(R.id.progress_bar));
         String[] items = {"Credit Card", "Debit Card"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
 
-        enabler.setProgressBar(findViewById(R.id.progressBar));
+        enabler.setProgressBar(findViewById(R.id.progress_bar));
         actvCardType.setAdapter(adapter);
         etValidThrough.addTextChangedListener(new TextWatcher() {
             @Override

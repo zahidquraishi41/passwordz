@@ -242,10 +242,9 @@ public class Helper {
         LoginsModel google20 = new LoginsModel("Google.com", "jerry.fennimore@gmail.com", "KP(@#K#9AJ");
         saveAll(context, google1, google2, google3, google4, google5, google6, google7, google8, google9, google10, google11, google12, google13, google14, google15, google16, google17, google18, google19, google20);
 
-
         LoginsModel dummy1 = new LoginsModel("Amazon.com", "elmer.leonard@gmail.com", "()JhuU(H!@(#H98");
         LoginsModel dummy2 = new LoginsModel("Amazon.com", "craig.snyder@gmail.com", "3H!@(#H98");
-        LoginsModel dummy3 = new LoginsModel("Flipkart.com", "kendrick.ball@gmail.com", "(61hus!@(#H98");
+        LoginsModel dummy3 = new LoginsModel("Amazon.com", "kendrick.ball@gmail.com", "(61hus!@(#H98");
         LoginsModel dummy4 = new LoginsModel("YouTube.com", "archer.hoffman@gmail.com", "TFT22ij1jIJ");
         LoginsModel dummy5 = new LoginsModel("Twitch.tv", "jerry.fairbank@gmail.com", "$%^&*()PfF");
         LoginsModel dummy6 = new LoginsModel("Nykaa.com", "gresham.salvage@gmail.com", "NUSoi2()@@");

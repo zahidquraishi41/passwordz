@@ -10,7 +10,7 @@
         android:padding="16dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivUsername"
+            android:id="@+id/iv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -22,12 +22,12 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginStart="24dp"
-            android:layout_toStartOf="@id/ivOptions"
-            android:layout_toEndOf="@id/ivUsername"
+            android:layout_toStartOf="@id/iv_options"
+            android:layout_toEndOf="@id/iv_username"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvUsername"
+                android:id="@+id/tv_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sample_username"
@@ -35,16 +35,15 @@
                 android:textColor="?android:textColorPrimary" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvLastModified"
+                android:id="@+id/tv_last_modified"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sample_last_modified" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivOptions"
+            android:id="@+id/iv_options"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        navigationView = findViewById(R.id.bnvMain);
+        navigationView = findViewById(R.id.bnv_main);
         navigationView.setOnItemSelectedListener(this);
         firebaseAuth = FirebaseAuth.getInstance();
         fragmentManager = getSupportFragmentManager();
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             for (Fragment fragment : fragmentManager.getFragments())
                 fragmentManager.beginTransaction().remove(fragment).commit();
             fragmentManager.beginTransaction()
-                    .add(R.id.fragmentContainer, loginsListFragment, LoginsListFragment.TAG)
-                    .add(R.id.fragmentContainer, cardsListFragment, CardsListFragment.TAG)
-                    .add(R.id.fragmentContainer, settingsFragment, SettingsFragment.TAG)
+                    .add(R.id.fragment_container, loginsListFragment, LoginsListFragment.TAG)
+                    .add(R.id.fragment_container, cardsListFragment, CardsListFragment.TAG)
+                    .add(R.id.fragment_container, settingsFragment, SettingsFragment.TAG)
                     .commit();
         } else {
             loginsListFragment = (LoginsListFragment) fragmentManager.findFragmentByTag(LoginsListFragment.TAG);

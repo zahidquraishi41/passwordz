@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -13,11 +13,10 @@
         android:textColor="?android:textColorPrimary" />
 
     <GridView
-        android:id="@+id/gridView"
+        android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
-
+        android:layout_below="@id/tv_title"
         android:numColumns="4" />
 
     <include layout="@layout/default_progress_bar" />

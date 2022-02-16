@@ -22,7 +22,6 @@
             android:src="@mipmap/ic_launcher" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvWelcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -55,7 +54,6 @@
                 android:text="@string/version"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 android:textSize="18sp" />
-
 
         </com.google.android.material.card.MaterialCardView>
 
