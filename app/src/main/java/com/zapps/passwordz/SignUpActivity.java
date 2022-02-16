@@ -113,7 +113,6 @@ public class SignUpActivity extends AppCompatActivity {
                     requestBuilder.setDisplayName(fullName);
                     try {
                         Remember.with(SignUpActivity.this).that(Helper.KEY_HASHED_PASSWORD).is(Helper.getSHA256(password));
-//                        SharedPrefHelper.put(SignUpActivity.this, SharedPrefHelper.KEY_HASHED_PASSWORD, Helper.getSHA256(password));
                     } catch (Exception ignored) {
                         firebaseAuth.signOut();
                     }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,11 +92,30 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         TextView tvFullName = view.findViewById(R.id.tv_full_name);
         TextView tvUsername = view.findViewById(R.id.tv_username);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
+        if (user == null) {
+            CToast.error(context, Helper.MESSAGE_FIREBASE_USER_NULL);
+            ((Activity) context).finish();
+            return view;
+        }
+
+        if (user.getEmail() != null)
+            tvUsername.setText(user.getEmail().replace("@gmail.com", ""));
+        if (user.getDisplayName() != null)
             tvFullName.setText(user.getDisplayName());
-            if (user.getEmail() != null)
-                tvUsername.setText(user.getEmail().replace("@gmail.com", ""));
+        else {
+            // After signup display name takes few seconds to register which leaves makes it null.
+            // using a delay of 3 seconds fixes this issue.
+            Handler handler = new Handler();
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (user.getDisplayName() == null) handler.postDelayed(this, 3000);
+                    else tvFullName.setText(user.getDisplayName());
+                }
+            };
+            handler.postDelayed(runnable, 3000);
         }
         ivProfilePic.setOnClickListener(view1 -> {
             ProfilePicFragment fragment = new ProfilePicFragment(this);
