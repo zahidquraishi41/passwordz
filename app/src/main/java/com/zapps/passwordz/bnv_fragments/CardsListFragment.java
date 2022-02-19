@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CardsListFragment extends Fragment implements DeleteConfirmDialog.DeleteItemListener {
-    public static final String TAG = "CardsListFragment";
+    public static final String TAG = "ZQ-CardsListFragment";
     private Context context;
     private TextView tvMessage;
     private ProgressBar progressBar;

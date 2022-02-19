@@ -26,6 +26,7 @@ import com.zapps.passwordz.dialogs.DeleteConfirmDialog;
 import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.FirebaseHelper;
 import com.zapps.passwordz.helper.Helper;
+import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.model.LoginsModel;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.List;
 
 // lists all logins for a single website
 public class LoginsListActivity extends AppCompatActivity implements DeleteConfirmDialog.DeleteItemListener {
-    private static final String TAG = "ZQ";
+    private static final String TAG = "ZQ-LoginsListActivity";
     public static final String PARAM_WEBSITE = "website";
     private String website;
     private Adapter adapter;
@@ -49,7 +50,7 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
 
         website = getIntent().getStringExtra(PARAM_WEBSITE);
         if (website == null || website.isEmpty()) {
-            CToast.error(this, "An error occurred!");
+            CToast.error(this, Messages.UNEXPECTED_ERROR);
             finish();
             return;
         }

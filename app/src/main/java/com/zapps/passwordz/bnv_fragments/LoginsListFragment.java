@@ -39,7 +39,7 @@ import java.util.List;
 
 // displays list after grouping all logins by website
 public class LoginsListFragment extends Fragment {
-    public static final String TAG = "LoginsListFragment";
+    public static final String TAG = "ZQ-LoginsListFragment";
     private ProgressBar progressBar;
     private Context context;
     private TextView tvMessage;
@@ -107,7 +107,6 @@ public class LoginsListFragment extends Fragment {
                 }
                 Collections.sort(list);
                 adapter.refresh(list);
-//                linearLayoutManager.onRestoreInstanceState(scrollState);
                 progressBar.setVisibility(View.GONE);
             }
 

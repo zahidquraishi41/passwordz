@@ -15,10 +15,12 @@ import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.Enabler;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.MToast;
+import com.zapps.passwordz.helper.Messages;
+import com.zapps.passwordz.helper.MrCipher;
 import com.zapps.passwordz.helper.Remember;
 
 public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "ZQ";
+    private static final String TAG = "ZQ-LoginActivity";
     private EditText etUsername, etPassword;
     private FirebaseAuth firebaseAuth;
     private Enabler enabler;
@@ -65,16 +67,15 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth.signInWithEmailAndPassword(username, password)
                 .addOnSuccessListener(authResult -> {
                     try {
-                        Remember.with(LoginActivity.this).that(Helper.KEY_HASHED_PASSWORD).is(Helper.getSHA256(password));
+                        Remember.with(LoginActivity.this).that(Helper.KEY_HASHED_PASSWORD).is(MrCipher.getSHA256(password));
                     } catch (Exception e) {
-                        e.printStackTrace();
                         CToast.error(LoginActivity.this, e.getMessage());
                         firebaseAuth.signOut();
                         return;
                     }
                     FirebaseUser firebaseUser = authResult.getUser();
                     if (firebaseUser == null) {
-                        CToast.error(LoginActivity.this, Helper.MESSAGE_FIREBASE_USER_NULL);
+                        CToast.error(LoginActivity.this, Messages.FIREBASE_USER_NULL);
                         firebaseAuth.signOut();
                         return;
                     }
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                         message = e.getMessage()
                                 .replace("email address", "username")
                                 .replace("email", "username");
+                    if (message.isEmpty()) message = Messages.UNEXPECTED_ERROR;
                     CToast.error(LoginActivity.this, message);
                 });
     }

@@ -27,6 +27,7 @@ import com.zapps.passwordz.helper.PasswordGenerator;
 import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+    private static final String TAG = "ZQ-MainActivity";
     private boolean isAuthenticated = false;
     private FragmentManager fragmentManager;
     private BottomNavigationView navigationView;

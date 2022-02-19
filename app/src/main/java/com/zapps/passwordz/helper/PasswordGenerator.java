@@ -3,6 +3,7 @@ package com.zapps.passwordz.helper;
 import java.util.Random;
 
 public class PasswordGenerator {
+    private static final String TAG = "ZQ-PasswordGenerator";
     public static final int RECOMMENDED_PASSWORD_LENGTH = 15;
     // selects a random string from s then returns it
     private static String choice(String s) {

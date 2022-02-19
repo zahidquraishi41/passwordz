@@ -22,6 +22,7 @@ import com.zapps.passwordz.helper.FirebaseHelper;
 import com.zapps.passwordz.model.CardsModel;
 
 public class DeleteConfirmDialog extends BottomSheetDialogFragment {
+    private static final String TAG = "ZQ-DeleteConfirmDialog";
     private Button btnDelete;
     private Context context;
     private DeleteItemListener listener;

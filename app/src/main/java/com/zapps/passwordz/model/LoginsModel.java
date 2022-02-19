@@ -5,11 +5,13 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.zapps.passwordz.helper.Helper;
+import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
 
 public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
+    private static final String TAG = "ZQ-LoginsModel";
     private String website, username, password, notes, lastModified;
     private String pushId;
     private static final String DELIMITER = "\n\t\n";
@@ -36,7 +38,7 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
 
     public LoginsModel encrypt(Context context) throws Exception {
         String key = Helper.getEncryptionKey(context);
-        if (key == null) throw new Exception(Helper.MESSAGE_KEY_GENERATION_FAILED);
+        if (key == null) throw new Exception(Messages.KEY_GENERATION_FAILED);
         LoginsModel encryptedModel;
         try {
             encryptedModel = (LoginsModel) this.clone();
@@ -46,14 +48,14 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
             encryptedModel.setNotes(MrCipher.encrypt(getNotes(), key));
             encryptedModel.setLastModified(MrCipher.encrypt(getLastModified(), key));
         } catch (Exception e) {
-            throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
+            throw new Exception(Messages.ENCRYPTION_FAILED);
         }
         return encryptedModel;
     }
 
     public LoginsModel decrypt(Context context) throws Exception {
         String key = Helper.getEncryptionKey(context);
-        if (key == null) throw new Exception(Helper.MESSAGE_KEY_GENERATION_FAILED);
+        if (key == null) throw new Exception(Messages.KEY_GENERATION_FAILED);
         LoginsModel decryptedModel;
         try {
             decryptedModel = (LoginsModel) this.clone();
@@ -63,7 +65,7 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
             decryptedModel.setNotes(MrCipher.decrypt(getNotes(), key));
             decryptedModel.setLastModified(MrCipher.decrypt(getLastModified(), key));
         } catch (Exception e) {
-            throw new Exception(Helper.MESSAGE_DECRYPTION_FAILED);
+            throw new Exception(Messages.DECRYPTION_FAILED);
         }
         return decryptedModel;
     }

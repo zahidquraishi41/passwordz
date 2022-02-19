@@ -14,6 +14,7 @@ import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.Helper;
 
 public class AboutUsActivity extends AppCompatActivity {
+    private static final String TAG = "ZQ-AboutUsActivity";
     private long lastTapTime = System.currentTimeMillis();
     private int count = 0;
 
@@ -27,7 +28,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         tvVersionInfo.setOnClickListener(view -> versionInfo());
         String AboutApp = "This Project aim at developing software that can be used for securing their email id’s and passwords. This project is useful because we generally forget our either email id’s or passwords and if we note down on a diary or any other paper anyone can watch it and misuse our email id. It is simple and convenient for security.";
-        String Gratitude = "This project was developed for partial fulfillment of MCA degree. We would like to mention our sincere gratitude towards our principle <b>Dr. P. P. Bhattacharya</b> and HOD <i>Dr. Dibyendu Pal</i>, MCA Department, for giving us the opportunity to carry out our project. We would like to express our heart full gratitude to our project guide <b>Mr. Tapan Kumar Das</b>, who took keen interest on our project work and guided us all along, till the completion of our project work by providing all the necessary information for developing a good system. Finally, we take this opportunity to mention our sincere thanks to all team members for the completion of our project.";
+        String Gratitude = "This project was developed for partial fulfillment of MCA degree. We would like to mention our sincere gratitude towards our principle Dr. P. P. Bhattacharya and HOD Dr. Dibyendu Pal, MCA Department, for giving us the opportunity to carry out our project. We would like to express our heart full gratitude to our project guide <b>Mr. Tapan Kumar Das</b>, who took keen interest on our project work and guided us all along, till the completion of our project work by providing all the necessary information for developing a good system. Finally, we take this opportunity to mention our sincere thanks to all team members for the completion of our project.";
         Spanned htmlAboutApp = HtmlCompat.fromHtml(AboutApp, HtmlCompat.FROM_HTML_MODE_LEGACY);
         Spanned htmlGratitude = HtmlCompat.fromHtml(Gratitude, HtmlCompat.FROM_HTML_MODE_LEGACY);
         tvAbout.setText(String.format("%s\n\n%s", htmlAboutApp, htmlGratitude));

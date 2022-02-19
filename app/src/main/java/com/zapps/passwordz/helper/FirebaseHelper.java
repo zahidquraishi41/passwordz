@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +18,7 @@ import com.zapps.passwordz.model.LoginsModel;
 
 // any firebase related operations are done using this class.
 public class FirebaseHelper {
-    private static final String TAG = "ZQ";
+    private static final String TAG = "ZQ-FirebaseHelper";
 
     public interface CompletionListener {
         void onCompletion(boolean result, String error);
@@ -50,7 +51,7 @@ public class FirebaseHelper {
     // requires decrypted LoginsModel; if pushId is not null then updates existing data
     public static void saveLogin(Context context, LoginsModel loginsModel, CompletionListener completionListener) {
         if (!ConnectionObserver.isConnected(context)) {
-            completionListener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
+            completionListener.onCompletion(false, Messages.NO_INTERNET);
             return;
         }
 
@@ -60,13 +61,13 @@ public class FirebaseHelper {
             clone.setLastModified(Helper.getCurrentDate());
             encrypted = clone.encrypt(context);
         } catch (Exception e) {
-            completionListener.onCompletion(false, e.getMessage());
+            completionListener.onCompletion(false, Messages.ENCRYPTION_FAILED);
             return;
         }
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            completionListener.onCompletion(false, Helper.MESSAGE_FIREBASE_USER_NULL);
+            completionListener.onCompletion(false, Messages.FIREBASE_USER_NULL);
             return;
         }
 
@@ -79,13 +80,9 @@ public class FirebaseHelper {
             reference = LOGINS_REF.child(firebaseUser.getUid()).child(encrypted.getPushId());
         }
 
-        reference.setValue(encrypted).addOnCompleteListener(task -> {
-            String message;
-            if (task.getException() != null && task.getException().getMessage() != null)
-                message = task.getException().getMessage();
-            else message = null;
-            completionListener.onCompletion(task.isSuccessful(), message);
-        });
+        reference.setValue(encrypted)
+                .addOnSuccessListener(unused -> completionListener.onCompletion(true, null))
+                .addOnFailureListener(e -> completionListener.onCompletion(false, Messages.SERVER_UNREACHABLE));
     }
 
     // TODO made for testing purpose; remove once app is finished
@@ -97,27 +94,26 @@ public class FirebaseHelper {
     // for deleting single login account
     public static void deleteLogin(Context context, String pushId, CompletionListener completionListener) {
         if (!ConnectionObserver.isConnected(context)) {
-            completionListener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
+            completionListener.onCompletion(false, Messages.NO_INTERNET);
             return;
         }
+
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            completionListener.onCompletion(false, "User authentication failed");
+            completionListener.onCompletion(false, Messages.FIREBASE_USER_NULL);
             return;
         }
-        LOGINS_REF.child(firebaseUser.getUid()).child(pushId).removeValue().addOnCompleteListener(task -> {
-            String message;
-            if (task.getException() == null) message = "";
-            else message = task.getException().getMessage();
-            completionListener.onCompletion(task.isSuccessful(), message);
-        });
+
+        LOGINS_REF.child(firebaseUser.getUid()).child(pushId).removeValue()
+                .addOnSuccessListener(unused -> completionListener.onCompletion(true, null))
+                .addOnFailureListener(e -> completionListener.onCompletion(false, Messages.SERVER_UNREACHABLE));
     }
 
     // checks if a username is already used within a website
     // if no match is found then pushId is set to null
     public static void loginExists(Context context, String website, String username, ExistsListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
+            listener.onError(Messages.NO_INTERNET);
             return;
         }
         getAllLogins(context, website, new DataRetrieveListener() {
@@ -140,7 +136,7 @@ public class FirebaseHelper {
 
     private static void getAllLogins(Context context, Query query, DataRetrieveListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
+            listener.onError(Messages.NO_INTERNET);
             return;
         }
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -151,15 +147,14 @@ public class FirebaseHelper {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LoginsModel loginsModel = dataSnapshot.getValue(LoginsModel.class);
                     if (loginsModel == null) {
-                        listener.onError(Helper.MESSAGE_TYPE_CONVERSION_FAILED);
+                        listener.onError(Messages.TYPE_CONVERSION_FAILED);
                         return;
                     }
                     try {
                         LoginsModel decrypted = loginsModel.decrypt(context);
                         list[i] = decrypted;
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        listener.onError(Helper.MESSAGE_DECRYPTION_FAILED);
+                        listener.onError(Messages.DECRYPTION_FAILED);
                         return;
                     }
                     i += 1;
@@ -169,7 +164,7 @@ public class FirebaseHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                listener.onError(error.getMessage());
+                listener.onError(Messages.ON_CANCELLED);
             }
         });
     }
@@ -177,12 +172,12 @@ public class FirebaseHelper {
     // retrieves all logins
     public static void getAllLogins(Context context, DataRetrieveListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
+            listener.onError(Messages.NO_INTERNET);
             return;
         }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            listener.onError(Helper.MESSAGE_FIREBASE_USER_NULL);
+            listener.onError(Messages.FIREBASE_USER_NULL);
             return;
         }
         Query query = FirebaseHelper.LOGINS_REF.child(firebaseUser.getUid());
@@ -192,12 +187,12 @@ public class FirebaseHelper {
     // retrieves all logins within a website
     public static void getAllLogins(Context context, String website, DataRetrieveListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
+            listener.onError(Messages.NO_INTERNET);
             return;
         }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            listener.onError(Helper.MESSAGE_FIREBASE_USER_NULL);
+            listener.onError(Messages.FIREBASE_USER_NULL);
             return;
         }
         Query query = LOGINS_REF.child(firebaseUser.getUid()).orderByChild("website").equalTo(website);
@@ -207,7 +202,7 @@ public class FirebaseHelper {
     // saves cardModel to database; also checks if same card number is used or not
     public static void saveCard(Context context, CardsModel model, CompletionListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
+            listener.onCompletion(false, Messages.NO_INTERNET);
             return;
         }
 
@@ -216,13 +211,13 @@ public class FirebaseHelper {
             CardsModel clone = (CardsModel) model.clone();
             encrypted = clone.encrypt(context);
         } catch (Exception e) {
-            listener.onCompletion(false, e.getMessage());
+            listener.onCompletion(false, Messages.ENCRYPTION_FAILED);
             return;
         }
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            listener.onCompletion(false, Helper.MESSAGE_FIREBASE_USER_NULL);
+            listener.onCompletion(false, Messages.FIREBASE_USER_NULL);
             return;
         }
 
@@ -236,13 +231,10 @@ public class FirebaseHelper {
                 DatabaseReference reference = CARDS_REF.child(firebaseUser.getUid()).push();
                 String pushId = reference.getKey();
                 encrypted.setPushId(pushId);
-                reference.setValue(encrypted).addOnCompleteListener(task -> {
-                    String message;
-                    if (task.getException() != null && task.getException().getMessage() != null)
-                        message = task.getException().getMessage();
-                    else message = null;
-                    listener.onCompletion(task.isSuccessful(), message);
-                });
+
+                reference.setValue(encrypted)
+                        .addOnSuccessListener(unused -> listener.onCompletion(true, null))
+                        .addOnFailureListener(e -> listener.onCompletion(false, Messages.SERVER_UNREACHABLE));
             }
 
             @Override
@@ -260,19 +252,18 @@ public class FirebaseHelper {
 
     public static void cardExists(Context context, String cardNumber, ExistsListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
+            listener.onError(Messages.NO_INTERNET);
             return;
         }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            listener.onError(Helper.MESSAGE_FIREBASE_USER_NULL);
+            listener.onError(Messages.FIREBASE_USER_NULL);
             return;
         }
         String key;
         try {
             key = Helper.getEncryptionKey(context);
         } catch (Exception e) {
-            e.printStackTrace();
             listener.onError(e.getMessage());
             return;
         }
@@ -282,7 +273,7 @@ public class FirebaseHelper {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     CardsModel model = dataSnapshot.getValue(CardsModel.class);
                     if (model == null) {
-                        listener.onError(Helper.MESSAGE_TYPE_CONVERSION_FAILED);
+                        listener.onError(Messages.TYPE_CONVERSION_FAILED);
                         return;
                     }
                     try {
@@ -292,8 +283,7 @@ public class FirebaseHelper {
                             return;
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        listener.onError(e.getMessage());
+                        listener.onError(Messages.DECRYPTION_FAILED);
                         return;
                     }
                 }
@@ -302,20 +292,20 @@ public class FirebaseHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                listener.onError(error.getMessage());
+                listener.onError(Messages.SERVER_UNREACHABLE);
             }
         });
     }
 
     public static void getAllCards(Context context, CardsRetrieverListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onError(Helper.MESSAGE_NO_INTERNET);
+            listener.onError(Messages.NO_INTERNET);
             return;
         }
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            listener.onError(Helper.MESSAGE_FIREBASE_USER_NULL);
+            listener.onError(Messages.FIREBASE_USER_NULL);
             return;
         }
         String uid = firebaseUser.getUid();
@@ -327,15 +317,14 @@ public class FirebaseHelper {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     CardsModel model = dataSnapshot.getValue(CardsModel.class);
                     if (model == null) {
-                        listener.onError(Helper.MESSAGE_TYPE_CONVERSION_FAILED);
+                        listener.onError(Messages.TYPE_CONVERSION_FAILED);
                         return;
                     }
                     try {
                         model = model.decrypt(context);
                         cardsModels[i] = model;
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        listener.onError(Helper.MESSAGE_DECRYPTION_FAILED);
+                        listener.onError(Messages.DECRYPTION_FAILED);
                         return;
                     }
                     i += 1;
@@ -345,14 +334,14 @@ public class FirebaseHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                listener.onError(error.getMessage());
+                listener.onError(Messages.ON_CANCELLED);
             }
         });
     }
 
     public static void deleteCard(Context context, String pushId, CompletionListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
+            listener.onCompletion(false, Messages.NO_INTERNET);
             return;
         }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -360,17 +349,14 @@ public class FirebaseHelper {
             listener.onCompletion(false, "User authentication failed");
             return;
         }
-        CARDS_REF.child(firebaseUser.getUid()).child(pushId).removeValue().addOnCompleteListener(task -> {
-            String message;
-            if (task.getException() == null) message = "";
-            else message = task.getException().getMessage();
-            listener.onCompletion(task.isSuccessful(), message);
-        });
+        CARDS_REF.child(firebaseUser.getUid()).child(pushId).removeValue()
+                .addOnSuccessListener(unused -> listener.onCompletion(true, null))
+                .addOnFailureListener(e -> listener.onCompletion(false, Messages.SERVER_UNREACHABLE));
     }
 
     public static void deleteAllLogins(Context context, CompletionListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
+            listener.onCompletion(false, Messages.NO_INTERNET);
             return;
         }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -381,12 +367,12 @@ public class FirebaseHelper {
         LOGINS_REF.child(firebaseUser.getUid())
                 .removeValue()
                 .addOnSuccessListener(unused -> listener.onCompletion(true, ""))
-                .addOnFailureListener(e -> listener.onCompletion(false, e.getMessage()));
+                .addOnFailureListener(e -> listener.onCompletion(false, Messages.SERVER_UNREACHABLE));
     }
 
     public static void deleteAllCards(Context context, CompletionListener listener) {
         if (!ConnectionObserver.isConnected(context)) {
-            listener.onCompletion(false, Helper.MESSAGE_NO_INTERNET);
+            listener.onCompletion(false, Messages.NO_INTERNET);
             return;
         }
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -397,7 +383,7 @@ public class FirebaseHelper {
         CARDS_REF.child(firebaseUser.getUid())
                 .removeValue()
                 .addOnSuccessListener(unused -> listener.onCompletion(true, ""))
-                .addOnFailureListener(e -> listener.onCompletion(false, e.getMessage()));
+                .addOnFailureListener(e -> listener.onCompletion(false, Messages.SERVER_UNREACHABLE));
     }
 
 }

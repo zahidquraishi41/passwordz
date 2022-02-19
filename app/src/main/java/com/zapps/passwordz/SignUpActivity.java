@@ -21,10 +21,12 @@ import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.Enabler;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.MToast;
+import com.zapps.passwordz.helper.MrCipher;
 import com.zapps.passwordz.helper.PasswordGenerator;
 import com.zapps.passwordz.helper.Remember;
 
 public class SignUpActivity extends AppCompatActivity {
+    private static final String TAG = "ZQ-SignUpActivity";
     private EditText etFullName, etUsername, etPassword;
     private TextInputLayout tilPassword;
     private SensorManager sensorManager;
@@ -112,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                     UserProfileChangeRequest.Builder requestBuilder = new UserProfileChangeRequest.Builder();
                     requestBuilder.setDisplayName(fullName);
                     try {
-                        Remember.with(SignUpActivity.this).that(Helper.KEY_HASHED_PASSWORD).is(Helper.getSHA256(password));
+                        Remember.with(SignUpActivity.this).that(Helper.KEY_HASHED_PASSWORD).is(MrCipher.getSHA256(password));
                     } catch (Exception ignored) {
                         firebaseAuth.signOut();
                     }

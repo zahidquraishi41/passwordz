@@ -8,7 +8,6 @@ import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -42,17 +41,6 @@ public class Helper {
     public static final String KEY_HASHED_PASSWORD = "hashed_password";
     public static final String KEY_SHOW_SHAKE_PROMPT = "show_shake_prompt";
 
-    public static final String MESSAGE_FIREBASE_USER_NULL = "Failed to access database.";
-    public static final String MESSAGE_TYPE_CONVERSION_FAILED = "Failed to access database.";
-    public static final String MESSAGE_DECRYPTION_FAILED = "Failed to decrypt data.";
-    public static final String MESSAGE_ENCRYPTION_FAILED = "Failed to encrypt data.";
-    public static final String MESSAGE_KEY_GENERATION_FAILED = "Key generation failed.";
-    public static final String MESSAGE_ON_CANCELLED = "Failed to connect to database.";
-    public static final String MESSAGE_USERNAME_ALREADY_EXISTS = "This username is already added.";
-    public static final String MESSAGE_ERROR_READING_LOGINS = "Error reading login accounts.";
-    public static final String MESSAGE_ERROR_READING_CARDS = "Error reading card details.";
-    public static final String MESSAGE_NO_INTERNET = "You are not connected to internet.";
-
     public interface AuthenticationCallback {
         void result(boolean isSuccess);
     }
@@ -64,8 +52,7 @@ public class Helper {
         try {
             viewGroup = activity.findViewById(R.id.parent);
             viewGroup.startAnimation(fade_in);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignore) {
         }
     }
 
@@ -99,7 +86,6 @@ public class Helper {
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
-                Log.d(TAG, "onAuthenticationError: " + errString);
                 authenticationCallback.result(false);
             }
 
@@ -112,7 +98,6 @@ public class Helper {
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                Log.d(TAG, "onAuthenticationFailed: ");
                 authenticationCallback.result(false);
             }
         };
@@ -131,20 +116,6 @@ public class Helper {
         return biometricManager.canAuthenticate(BIOMETRIC_STRONG) == BiometricManager.BIOMETRIC_SUCCESS;
     }
 
-    public static String getSHA256(String s) throws Exception {
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = messageDigest.digest(s.getBytes(StandardCharsets.UTF_8));
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-        return hexString.toString();
-    }
-
     public static String getEncryptionKey(Context context) {
         String hashedPassword = Remember.with(context).that(Helper.KEY_HASHED_PASSWORD).was();
         if (hashedPassword == null) return null;
@@ -155,9 +126,8 @@ public class Helper {
         if (email == null | uid == null) return null;
         String encryptionKey = null;
         try {
-            encryptionKey = getSHA256(hashedPassword + email + uid);
-        } catch (Exception e) {
-            e.printStackTrace();
+            encryptionKey = MrCipher.getSHA256(hashedPassword + email + uid);
+        } catch (Exception ignore) {
         }
         return encryptionKey;
     }

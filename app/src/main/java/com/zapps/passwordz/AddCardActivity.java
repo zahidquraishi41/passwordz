@@ -17,7 +17,7 @@ import com.zapps.passwordz.helper.MToast;
 import com.zapps.passwordz.model.CardsModel;
 
 public class AddCardActivity extends AppCompatActivity {
-    private static final String TAG = "ZQ";
+    private static final String TAG = "ZQ-AddCardActivity";
     private EditText etNameOnCard, etCardNumber, etValidThrough, etCVV;
     private Enabler enabler;
     private AutoCompleteTextView actvCardType;
@@ -121,7 +121,6 @@ public class AddCardActivity extends AppCompatActivity {
                 if (iMonth < 1 || iMonth > 12) toast.warn("Please enter valid month.");
                 if (iYear < 2000 || iYear > 3000) toast.warn("Please enter valid year");
             } catch (NumberFormatException e) {
-                e.printStackTrace();
                 toast.warn("Please enter correct valid through");
             }
         }

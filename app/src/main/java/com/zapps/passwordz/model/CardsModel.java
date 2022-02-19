@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import androidx.annotation.NonNull;
 
 import com.zapps.passwordz.helper.Helper;
+import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class CardsModel implements Cloneable, Comparable<CardsModel> {
+    private static final String TAG = "ZQ-CardsModel";
     private String pushId;
     public String cardNumber, validThrough, nameOnCard, cvv, cardType;
     private static final String DELIMITER = "\n\t\n";
@@ -31,7 +33,7 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
 
     public CardsModel encrypt(Context context) throws Exception {
         String key = Helper.getEncryptionKey(context);
-        if (key == null) throw new Exception(Helper.MESSAGE_KEY_GENERATION_FAILED);
+        if (key == null) throw new Exception(Messages.KEY_GENERATION_FAILED);
         CardsModel encrypted;
         try {
             encrypted = (CardsModel) this.clone();
@@ -40,14 +42,14 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             encrypted.setNameOnCard(MrCipher.encrypt(encrypted.getNameOnCard(), key));
             encrypted.setCvv(MrCipher.encrypt(encrypted.getCvv(), key));
         } catch (Exception e) {
-            throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
+            throw new Exception(Messages.ENCRYPTION_FAILED);
         }
         return encrypted;
     }
 
     public CardsModel decrypt(Context context) throws Exception {
         String key = Helper.getEncryptionKey(context);
-        if (key == null) throw new Exception(Helper.MESSAGE_KEY_GENERATION_FAILED);
+        if (key == null) throw new Exception(Messages.KEY_GENERATION_FAILED);
         CardsModel decrypted;
         try {
             decrypted = (CardsModel) this.clone();
@@ -56,7 +58,7 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             decrypted.setNameOnCard(MrCipher.decrypt(decrypted.getNameOnCard(), key));
             decrypted.setCvv(MrCipher.decrypt(decrypted.getCvv(), key));
         } catch (Exception e) {
-            throw new Exception(Helper.MESSAGE_ENCRYPTION_FAILED);
+            throw new Exception(Messages.ENCRYPTION_FAILED);
         }
         return decrypted;
     }

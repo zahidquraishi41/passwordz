@@ -1,5 +1,6 @@
 package com.zapps.passwordz.helper;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Arrays;
@@ -11,7 +12,22 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class MrCipher {
+    private static final String TAG = "ZQ-MrCipher";
     public static final String ALGORITHM = "AES/CBC/PKCS5Padding";
+
+    public static String getSHA256(String s) throws Exception {
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = messageDigest.digest(s.getBytes(StandardCharsets.UTF_8));
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
 
     /**
      * Converts key to SecretKey

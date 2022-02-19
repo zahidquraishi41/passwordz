@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -29,14 +28,14 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class ExportImportHelper {
-    public enum FileType {TEXT, EXCEL}
-
-    private static final String TAG = "ExportImportHelper";
+    private static final String TAG = "ZQ-ExportImportHelper";
     private final Context context;
     private static final String LOGINS_EXCEL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "logins.xls";
     private static final String LOGINS_TEXT = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "logins.txt";
     private static final String CARDS_EXCEL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "cards.xls";
     private static final String CARDS_TEXT = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "cards.txt";
+
+    public enum FileType {TEXT, EXCEL}
 
     public ExportImportHelper(Context context) {
         this.context = context;
@@ -128,7 +127,6 @@ public class ExportImportHelper {
             }
             fileReader.close();
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         }
         return builder.toString();
@@ -244,7 +242,6 @@ public class ExportImportHelper {
                 newModels.add(new LoginsModel(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4)));
             }
         } catch (Exception e) {
-            e.printStackTrace();
             CToast.error(context, "An error occurred while processing excel file.");
             return;
         } finally {
@@ -252,8 +249,7 @@ public class ExportImportHelper {
                 if (fis != null) {
                     fis.close();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignore) {
             }
         }
         writeLogins(newModels);
@@ -270,12 +266,11 @@ public class ExportImportHelper {
         try {
             newModels = LoginsModel.fromString(readFile(file));
         } catch (Exception e) {
-            e.printStackTrace();
-            CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
+            CToast.error(context, Messages.ERROR_READING_LOGINS);
             return;
         }
         if (newModels.isEmpty()) {
-            CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
+            CToast.error(context, Messages.ERROR_READING_LOGINS);
             return;
         }
         writeLogins(newModels);
@@ -307,7 +302,6 @@ public class ExportImportHelper {
                 newModels.add(new CardsModel(values.get(0), values.get(1), values.get(2), values.get(3), values.get(4)));
             }
         } catch (Exception e) {
-            e.printStackTrace();
             CToast.error(context, "An error occurred while processing excel file.");
             return;
         } finally {
@@ -315,8 +309,7 @@ public class ExportImportHelper {
                 if (fis != null) {
                     fis.close();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignore) {
             }
         }
         writeCards(newModels);
@@ -333,12 +326,11 @@ public class ExportImportHelper {
         try {
             newModels = CardsModel.fromString(readFile(file));
         } catch (Exception e) {
-            e.printStackTrace();
-            CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
+            CToast.error(context, Messages.ERROR_READING_LOGINS);
             return;
         }
         if (newModels.isEmpty()) {
-            CToast.error(context, Helper.MESSAGE_ERROR_READING_LOGINS);
+            CToast.error(context, Messages.ERROR_READING_LOGINS);
             return;
         }
         writeCards(newModels);
@@ -414,7 +406,6 @@ public class ExportImportHelper {
                 fileWriter.close();
                 listener.onCompletion(true, "");
             } catch (IOException e) {
-                e.printStackTrace();
                 listener.onCompletion(false, e.getMessage());
             }
             return null;
@@ -457,7 +448,6 @@ public class ExportImportHelper {
 
             // creating data rows
             for (int i = 0; i < list.length; i++) {
-                Log.d(TAG, "doInBackground: " + list[i].getNotes());
                 HSSFRow hssfRow = hssfSheet.createRow(i + 1);
                 HSSFCell websiteCell = hssfRow.createCell(0);
                 websiteCell.setCellValue(list[i].getWebsite());
@@ -478,13 +468,11 @@ public class ExportImportHelper {
                 hssfWorkbook.write(fos);
                 listener.onCompletion(true, "");
             } catch (IOException e) {
-                e.printStackTrace();
                 listener.onCompletion(false, e.getMessage());
             } finally {
                 try {
                     if (fos != null) fos.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception ignore) {
                 }
             }
             return null;
@@ -515,7 +503,6 @@ public class ExportImportHelper {
                 fileWriter.close();
                 listener.onCompletion(true, "");
             } catch (IOException e) {
-                e.printStackTrace();
                 listener.onCompletion(false, e.getMessage());
             }
             return null;
@@ -532,7 +519,6 @@ public class ExportImportHelper {
 
         @Override
         protected Void doInBackground(CardsModel... list) {
-            //    public String cardNumber, validThrough, nameOnCard, cvv, cardType;
             File file = new File(CARDS_EXCEL);
 
             // Creating excel sheet
@@ -575,13 +561,11 @@ public class ExportImportHelper {
                 fos.close();
                 listener.onCompletion(true, "");
             } catch (IOException e) {
-                e.printStackTrace();
                 listener.onCompletion(false, e.getMessage());
             } finally {
                 try {
                     if (fos != null) fos.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception ignore) {
                 }
             }
             return null;

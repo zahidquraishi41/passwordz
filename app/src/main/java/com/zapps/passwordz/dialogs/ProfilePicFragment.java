@@ -21,8 +21,10 @@ import com.squareup.picasso.Picasso;
 import com.zapps.passwordz.R;
 import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.Helper;
+import com.zapps.passwordz.helper.Messages;
 
 public class ProfilePicFragment extends BottomSheetDialogFragment implements AdapterView.OnItemClickListener {
+    private static final String TAG = "ZQ-ProfilePicFragment";
     private int[] profileImages;
     private Context context;
     private final ProfilePicChangeListener listener;
@@ -51,7 +53,7 @@ public class ProfilePicFragment extends BottomSheetDialogFragment implements Ada
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
-            CToast.error(context, Helper.MESSAGE_FIREBASE_USER_NULL);
+            CToast.error(context, Messages.FIREBASE_USER_NULL);
             return;
         }
         UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();

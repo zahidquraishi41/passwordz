@@ -26,10 +26,13 @@ import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.Enabler;
 import com.zapps.passwordz.helper.FirebaseHelper;
 import com.zapps.passwordz.helper.Helper;
+import com.zapps.passwordz.helper.MToast;
+import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.PasswordGenerator;
 import com.zapps.passwordz.model.LoginsModel;
 
 public class AddOrEditLoginsActivity extends AppCompatActivity {
+    private static final String TAG = "ZQ-AddOrEditLoginsActivity";
     public static final String PARAM_PUSH_ID = "push_id";
     public static final String PARAM_WEBSITE = "website";
     private EditText etWebsite, etUsername, etPassword, etNotes;
@@ -43,7 +46,6 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_or_edit_logins);
-
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         etWebsite = findViewById(R.id.etWebsite);
         etUsername = findViewById(R.id.et_username);
@@ -94,18 +96,17 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
         enabler.disableAll();
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if (firebaseUser == null) {
-            CToast.error(this, Helper.MESSAGE_FIREBASE_USER_NULL);
+            CToast.error(this, Messages.FIREBASE_USER_NULL);
             finish();
             return;
         }
         Query query = FirebaseHelper.LOGINS_REF.child(firebaseUser.getUid()).child(pushId);
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                query.removeEventListener(this);
                 originalLoginsModel = snapshot.getValue(LoginsModel.class);
                 if (originalLoginsModel == null) {
-                    CToast.error(AddOrEditLoginsActivity.this, Helper.MESSAGE_TYPE_CONVERSION_FAILED);
+                    CToast.error(AddOrEditLoginsActivity.this, Messages.TYPE_CONVERSION_FAILED);
                     finish();
                     return;
                 }
@@ -113,8 +114,7 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
                     originalLoginsModel = originalLoginsModel.decrypt(AddOrEditLoginsActivity.this);
                     modifiedLoginsModel = (LoginsModel) originalLoginsModel.clone();
                 } catch (Exception e) {
-                    CToast.error(AddOrEditLoginsActivity.this, e.getMessage());
-                    e.printStackTrace();
+                    CToast.error(AddOrEditLoginsActivity.this, Messages.DECRYPTION_FAILED);
                     finish();
                     return;
                 }
@@ -127,8 +127,7 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                query.removeEventListener(this);
-                CToast.error(AddOrEditLoginsActivity.this, "Error: " + error.getMessage());
+                CToast.error(AddOrEditLoginsActivity.this, Messages.ON_CANCELLED);
                 finish();
             }
         });
@@ -154,14 +153,16 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
         password = etPassword.getText().toString();
         notes = etNotes.getText().toString();
 
-        if (website.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            CToast.warn(AddOrEditLoginsActivity.this, "Website, Username & Password are mandatory fields");
-            return;
-        }
-        if (!Helper.isValidDomain(website)) {
-            CToast.warn(this, "Please enter a valid domain name");
-            return;
-        }
+        MToast toast = new MToast(this);
+        toast.stopAfterFirst(true);
+
+        if (website.isEmpty()) toast.warn("Website cannot be empty");
+        if (!Helper.isValidDomain(website)) toast.warn("Please enter a valid domain name");
+        if (username.isEmpty()) toast.warn("Username cannot be empty");
+        if (password.isEmpty()) toast.warn("Password cannot be empty");
+
+        if (toast.resetCount().warningCount > 0) return;
+
         if (modifiedLoginsModel == null) modifiedLoginsModel = new LoginsModel();
         modifiedLoginsModel.setWebsite(website);
         modifiedLoginsModel.setUsername(username);
@@ -170,7 +171,7 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
 
         if (originalLoginsModel != null) {
             if (modifiedLoginsModel.equals(originalLoginsModel)) {
-                finish();
+                CToast.info(AddOrEditLoginsActivity.this, "No changes made");
                 return;
             }
             if (modifiedLoginsModel.getUsername().equals(originalLoginsModel.getUsername())) {
@@ -185,7 +186,7 @@ public class AddOrEditLoginsActivity extends AppCompatActivity {
             public void onSuccess(boolean exists) {
                 if (exists) {
                     enabler.enableAll();
-                    CToast.error(AddOrEditLoginsActivity.this, Helper.MESSAGE_USERNAME_ALREADY_EXISTS);
+                    CToast.error(AddOrEditLoginsActivity.this, Messages.USERNAME_ALREADY_EXISTS);
                 } else saveToFirebase();
             }
 

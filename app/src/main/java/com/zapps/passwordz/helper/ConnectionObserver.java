@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
@@ -14,16 +13,16 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
 public class ConnectionObserver implements LifecycleObserver {
-    public interface ConnectionChange {
-        void onConnected();
-    }
-
-    private static final String TAG = "ConnectionObserver";
+    private static final String TAG = "ZQ-ConnectionObserver";
     private final ConnectivityManager connectivityManager;
     private final ConnectivityManager.NetworkCallback networkCallback;
     private final NetworkRequest networkRequest;
     private final LifecycleOwner lifecycleOwner;
     private boolean wasDisconnected;
+
+    public interface ConnectionChange {
+        void onConnected();
+    }
 
 
     public static boolean isConnected(Context context) {
@@ -43,7 +42,7 @@ public class ConnectionObserver implements LifecycleObserver {
             @Override
             public void onUnavailable() {
                 super.onUnavailable();
-                CToast.error(context, "No internet connection");
+                CToast.error(context, Messages.NO_INTERNET);
                 wasDisconnected = true;
             }
 
@@ -60,7 +59,7 @@ public class ConnectionObserver implements LifecycleObserver {
             @Override
             public void onLost(@NonNull Network network) {
                 super.onLost(network);
-                CToast.error(context, "No internet connection");
+                CToast.error(context, Messages.NO_INTERNET);
                 wasDisconnected = true;
             }
         };
@@ -68,20 +67,16 @@ public class ConnectionObserver implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private void startListening() {
-        Log.d(TAG, "ConnectionObserver: startListening: ");
         connectivityManager.registerNetworkCallback(networkRequest, networkCallback);
     }
 
-    //    below function is uncommented to fix bugs
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private void stopListening() {
-        Log.d(TAG, "ConnectionObserver: stopListening: ");
         connectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     private void removeObserver() {
-        Log.d(TAG, "removeObserver: remove Observer");
         lifecycleOwner.getLifecycle().removeObserver(this);
     }
 

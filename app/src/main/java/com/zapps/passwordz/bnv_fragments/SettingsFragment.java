@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +34,13 @@ import com.zapps.passwordz.dialogs.ProfilePicFragment;
 import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.ExportImportHelper;
 import com.zapps.passwordz.helper.Helper;
+import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.Remember;
 
 import java.util.concurrent.Executor;
 
 public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, ProfilePicFragment.ProfilePicChangeListener {
-    public static final String TAG = "SettingsFragment";
+    public static final String TAG = "ZQ-SettingsFragment";
     private Context context;
     private ImageView ivProfilePic;
 
@@ -95,7 +95,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
-            CToast.error(context, Helper.MESSAGE_FIREBASE_USER_NULL);
+            CToast.error(context, Messages.FIREBASE_USER_NULL);
             ((Activity) context).finish();
             return view;
         }
@@ -206,7 +206,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         super.onStart();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            CToast.error(context, Helper.MESSAGE_FIREBASE_USER_NULL);
+            CToast.error(context, Messages.FIREBASE_USER_NULL);
             return;
         }
         Uri profileUri = currentUser.getPhotoUrl();
@@ -238,7 +238,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 @Override
                 public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                     super.onAuthenticationError(errorCode, errString);
-                    Log.d(TAG, "onAuthenticationError: " + errString);
                     // errorCode is 13 when user presses cancel button.
                     if (errorCode != 13)
                         CToast.error(context, errString.toString());
@@ -253,7 +252,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                 @Override
                 public void onAuthenticationFailed() {
                     super.onAuthenticationFailed();
-                    Log.d(TAG, "onAuthenticationFailed: ");
                     CToast.error(context, "Authentication failed.");
                     cancel();
                 }
