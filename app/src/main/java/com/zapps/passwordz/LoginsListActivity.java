@@ -31,7 +31,6 @@ import com.zapps.passwordz.model.LoginsModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 // lists all logins for a single website
 public class LoginsListActivity extends AppCompatActivity implements DeleteConfirmDialog.DeleteItemListener {
@@ -107,7 +106,6 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
                     if (loginsModel.getWebsite().equals(website)) filteredLogins.add(loginsModel);
                 for (LoginsModel loginsModel : filteredLogins)
                     list.add(new ViewModel(loginsModel.getUsername(), loginsModel.getPassword(), loginsModel.getLastModified(), loginsModel.getPushId()));
-                Collections.sort(list);
                 adapter.refresh(list);
                 progressBar.setVisibility(View.GONE);
             }
@@ -223,58 +221,37 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
-        public static final String PAYLOAD_USERNAME = "username";
-        public static final String PAYLOAD_LAST_MODIFIED = "lastModified";
-        public static final String PAYLOAD_BOTH = "both";
         private final ArrayList<ViewModel> list;
 
         public Adapter() {
             this.list = new ArrayList<>();
         }
 
-        public Adapter(ArrayList<ViewModel> list) {
-            this.list = list;
-        }
-
-        private boolean hasPushId(String pushId, ArrayList<ViewModel> list) {
-            for (ViewModel viewModel : list) if (viewModel.getPushId().equals(pushId)) return true;
+        public boolean requireRefresh(ArrayList<ViewModel> updatedList) {
+            if (list.size() != updatedList.size()) return true;
+            for (ViewModel updatedModel : updatedList) {
+                boolean found = false;
+                for (ViewModel oldModel : list) {
+                    if (oldModel.getPushId().equals(updatedModel.getPushId())) {
+                        found = true;
+                        if (!oldModel.getLastModified().equals(updatedModel.getLastModified()) ||
+                                !oldModel.getUsername().equals(updatedModel.getUsername()) ||
+                                !oldModel.getPassword().equals(updatedModel.getPassword()))
+                            return true;
+                        else break;
+                    }
+                }
+                if (!found) return true;
+            }
             return false;
         }
 
-        public void refresh(ArrayList<ViewModel> newList) {
-            // when value is removed.
-            ArrayList<ViewModel> tempModel = new ArrayList<>(list);
-            for (ViewModel viewModel : tempModel) {
-                if (!hasPushId(viewModel.getPushId(), newList)) {
-                    int index = list.indexOf(viewModel);
-                    list.remove(index);
-                    notifyItemRemoved(index);
-                }
-            }
-
-            // when a new item is added
-            ArrayList<ViewModel> newModels = new ArrayList<>();
-            for (ViewModel viewModel : newList) {
-                if (!hasPushId(viewModel.getPushId(), list)) newModels.add(viewModel);
-            }
-            list.addAll(newModels);
+        public void refresh(ArrayList<ViewModel> updatedList) {
+            if (!requireRefresh(updatedList)) return;
+            list.clear();
+            list.addAll(updatedList);
             sort();
-            for (ViewModel viewModel : newModels) {
-                int index = list.indexOf(viewModel);
-                notifyItemInserted(index);
-            }
-
-            // updating changed items
-            for (int i = 0; i < list.size(); i++) {
-                if (!list.get(i).equals(newList.get(i))) {
-                    boolean sameUsername = list.get(i).getUsername().equals(newList.get(i).getUsername());
-                    boolean sameLastModified = list.get(i).getLastModified().equals(newList.get(i).getLastModified());
-                    list.set(i, newList.get(i));
-                    if (!sameUsername && !sameLastModified) notifyItemChanged(i, PAYLOAD_BOTH);
-                    else if (!sameUsername) notifyItemChanged(i, PAYLOAD_USERNAME);
-                    else if (!sameLastModified) notifyItemChanged(i, PAYLOAD_LAST_MODIFIED);
-                }
-            }
+            notifyDataSetChanged();
         }
 
         public void sort() {
@@ -292,21 +269,6 @@ public class LoginsListActivity extends AppCompatActivity implements DeleteConfi
         public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
             super.onViewDetachedFromWindow(holder);
             holder.itemView.clearAnimation();
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
-            if (payloads.isEmpty())
-                super.onBindViewHolder(holder, position, payloads);
-            else for (Object payload : payloads) {
-                if (payload.equals(PAYLOAD_BOTH)) {
-                    holder.tvUsername.setText(list.get(position).getUsername());
-                    holder.tvLastModified.setText(list.get(position).getLastModified());
-                } else if (payload.equals(PAYLOAD_USERNAME))
-                    holder.tvUsername.setText(list.get(position).getUsername());
-                else if (payload.equals(PAYLOAD_LAST_MODIFIED))
-                    holder.tvLastModified.setText(list.get(position).getLastModified());
-            }
         }
 
         @Override

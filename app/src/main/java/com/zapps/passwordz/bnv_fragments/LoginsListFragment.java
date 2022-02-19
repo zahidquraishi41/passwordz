@@ -185,55 +185,34 @@ public class LoginsListFragment extends Fragment {
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
         private final ArrayList<ViewModel> list;
-        public static final String PAYLOAD_ACCOUNT_COUNT = "accountCount";
-
-        @Override
-        public void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull List<Object> payloads) {
-            if (payloads.isEmpty())
-                super.onBindViewHolder(holder, position, payloads);
-            else {
-                for (Object payload : payloads)
-                    if (payload.equals(PAYLOAD_ACCOUNT_COUNT))
-                        holder.tvSubtitle.setText(MessageFormat.format("{0} Accounts", list.get(position).getAccountCount()));
-            }
-        }
 
         public Adapter() {
             list = new ArrayList<>();
         }
 
-        public void refresh(ArrayList<ViewModel> updatedList) {
-            // when value is changed or removed.
-            ArrayList<ViewModel> tempList = new ArrayList<>(list);
-            for (ViewModel originalModel : tempList) {
-                ViewModel updatedModel = originalModel.in(updatedList);
-                // case1 - null: this model is deleted
-                // case2 - account count changed: a new account added to website
-                // case3 - exact copy: nothing changed
-                if (updatedModel == null) {
-                    int index = list.indexOf(originalModel);
-                    list.remove(index);
-                    notifyItemRemoved(index);
-                } else if (updatedModel.getAccountCount() != originalModel.getAccountCount()) {
-                    int index = list.indexOf(originalModel);
-                    list.get(index).setAccountCount(updatedModel.getAccountCount());
-                    notifyItemChanged(index, PAYLOAD_ACCOUNT_COUNT);
+        public boolean requireRefresh(ArrayList<ViewModel> updatedList) {
+            if (list.size() != updatedList.size()) return true;
+            for (ViewModel updatedModel : updatedList) {
+                boolean found = false;
+                for (ViewModel oldModel : list) {
+                    if (updatedModel.getWebsite().equals(oldModel.getWebsite())) {
+                        found = true;
+                        if (updatedModel.getAccountCount() == oldModel.getAccountCount())
+                            break;
+                        else return true;
+                    }
                 }
+                if (!found) return true;
             }
+            return false;
+        }
 
-            // when a new item is added
-            ArrayList<ViewModel> newModels = new ArrayList<>();
-            for (ViewModel viewModel : updatedList) {
-                ViewModel newModel = viewModel.in(list);
-                if (newModel == null) newModels.add(viewModel);
-            }
-            if (newModels.isEmpty()) return;
-            list.addAll(newModels);
+        public void refresh(ArrayList<ViewModel> updatedList) {
+            if (!requireRefresh(updatedList)) return;
+            list.clear();
+            list.addAll(updatedList);
             Collections.sort(list);
-            for (ViewModel viewModel : newModels) {
-                int index = list.indexOf(viewModel);
-                notifyItemInserted(index);
-            }
+            notifyDataSetChanged();
         }
 
         @Override
