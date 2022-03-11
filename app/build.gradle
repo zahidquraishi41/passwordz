@@ -12,7 +12,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
     }
 
     buildTypes {
@@ -29,7 +28,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.vinaygaba:creditcardview:1.0.4'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'io.github.shashank02051997:FancyToast:2.0.1'
     implementation "androidx.biometric:biometric:1.1.0"

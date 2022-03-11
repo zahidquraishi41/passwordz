@@ -126,6 +126,7 @@ public class CardsListFragment extends Fragment implements DeleteConfirmDialog.D
         }
 
         public void refresh(CardsModel[] updatedList) {
+            // TODO: test if refresh is working correctly
             // removing deleted card models
             ArrayList<CardsModel> tempModels = new ArrayList<>(list);
             for (CardsModel cardsModel : tempModels)

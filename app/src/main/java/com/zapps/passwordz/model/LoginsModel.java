@@ -9,6 +9,7 @@ import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
     private static final String TAG = "ZQ-LoginsModel";
@@ -141,6 +142,20 @@ public class LoginsModel implements Cloneable, Comparable<LoginsModel> {
                 "\n" +
                 "Notes: " + getNotes() +
                 DELIMITER;
+    }
+
+    public List<String> toList() {
+        List<String> columns = new ArrayList<>();
+        columns.add(getWebsite());
+        columns.add(getUsername());
+        columns.add(getPassword());
+        columns.add(getNotes());
+        columns.add(getLastModified());
+        return columns;
+    }
+
+    public static LoginsModel fromList(List<String> data) {
+        return new LoginsModel(data.get(0), data.get(1), data.get(2), data.get(3), data.get(4));
     }
 
     public static ArrayList<LoginsModel> fromString(String s) {

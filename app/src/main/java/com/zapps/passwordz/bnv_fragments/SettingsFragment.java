@@ -14,6 +14,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -44,10 +47,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     private Context context;
     private ImageView ivProfilePic;
 
-    private interface FileSelectionListener {
-        void onSelected(ExportImportHelper.FileType fileType);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,12 +55,12 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         SwitchMaterial smNightMode = view.findViewById(R.id.sm_night_mode);
         smNightMode.setOnCheckedChangeListener(this);
         smNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO);
-        view.findViewById(R.id.tv_export_logins).setOnClickListener(view12 -> export("logins"));
-        view.findViewById(R.id.tv_export_cards).setOnClickListener(view12 -> export("cards"));
+        view.findViewById(R.id.tv_export_logins).setOnClickListener(view12 -> save("logins"));
+        view.findViewById(R.id.tv_export_cards).setOnClickListener(view12 -> save("cards"));
         view.findViewById(R.id.tv_about).setOnClickListener(view12 -> about());
         view.findViewById(R.id.tv_logout).setOnClickListener(view12 -> logout());
-        view.findViewById(R.id.tv_import_logins).setOnClickListener(view14 -> _import("logins"));
-        view.findViewById(R.id.tv_import_cards).setOnClickListener(view14 -> _import("cards"));
+        view.findViewById(R.id.tv_import_logins).setOnClickListener(view14 -> load("logins"));
+        view.findViewById(R.id.tv_import_cards).setOnClickListener(view14 -> load("cards"));
         view.findViewById(R.id.tv_remove_all_logins).setOnClickListener(view13 -> {
             DeleteConfirmDialog dialog = new DeleteConfirmDialog(
                     DeleteConfirmDialog.ACTION_DELETE_ALL_LOGINS,
@@ -124,26 +123,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         return view;
     }
 
-    private void selectFileDialog(String title, String message, FileSelectionListener listener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        /* using builder.setMessage(message); hides options. Create custom dialog for fancy interface.*/
-        builder.setTitle(title);
-        String[] options = {"Text File", "Excel File"};
-        builder.setItems(options, (dialogInterface, i) -> {
-            ExportImportHelper.FileType fileType = ExportImportHelper.FileType.TEXT;
-            switch (i) {
-                case 0:
-                    fileType = ExportImportHelper.FileType.TEXT;
-                    break;
-                case 1:
-                    fileType = ExportImportHelper.FileType.EXCEL;
-                    break;
-            }
-            listener.onSelected(fileType);
-        });
-        builder.create().show();
-    }
-
     /*  other version of export function that require fingerprint before import/export.
     private void export(String which) {
         if (!Helper.isFingerprintSet(context)) {
@@ -161,22 +140,18 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     }
     */
 
-    private void export(String which) {
-        selectFileDialog("Save As", "Select file type to save.", fileType -> {
-            if (which.equals("cards"))
-                new ExportImportHelper(context).exportCards(fileType);
-            else if (which.equals("logins"))
-                new ExportImportHelper(context).exportLogins(fileType);
-        });
+    private void save(String which) {
+        if (which.equals("cards"))
+            new ExportImportHelper(context).exportCards();
+        else if (which.equals("logins"))
+            new ExportImportHelper(context).exportLogins();
     }
 
-    private void _import(String which) {
-        selectFileDialog("Import From", "Select exported file type.", fileType -> {
-            if (which.equals("cards"))
-                new ExportImportHelper(context).importCards(fileType);
-            else if (which.equals("logins"))
-                new ExportImportHelper(context).importLogins(fileType);
-        });
+    private void load(String which) {
+        if (which.equals("cards"))
+            new ExportImportHelper(context).importCards();
+        else if (which.equals("logins"))
+            new ExportImportHelper(context).importLogins();
     }
 
     @Override
@@ -268,7 +243,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
         public void cancel() {
             if (biometricPrompt != null) biometricPrompt.cancelAuthentication();
         }
-
     }
 
 }

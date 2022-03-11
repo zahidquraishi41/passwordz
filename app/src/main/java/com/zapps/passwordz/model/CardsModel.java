@@ -11,6 +11,7 @@ import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.MrCipher;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -195,6 +196,20 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
             cardsModels.add(new CardsModel(cardNumber, validThrough, nameOnCard, cvv, cardType));
         }
         return cardsModels;
+    }
+
+    public List<String> toList() {
+        List<String> columns = new ArrayList<>();
+        columns.add(getCardNumber());
+        columns.add(getValidThrough());
+        columns.add(getNameOnCard());
+        columns.add(getCvv());
+        columns.add(getCardType());
+        return columns;
+    }
+
+    public static CardsModel fromList(List<String> data) {
+        return new CardsModel(data.get(0), data.get(1), data.get(2), data.get(3), data.get(4));
     }
 
     @NonNull
