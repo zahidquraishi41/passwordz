@@ -39,7 +39,7 @@ import com.zapps.passwordz.helper.Remember;
 
 import java.util.concurrent.Executor;
 
-public class SettingsFragment extends Fragment implements CompoundButton.OnCheckedChangeListener, ProfilePicFragment.ProfilePicChangeListener {
+public class SettingsFragment extends Fragment implements ProfilePicFragment.ProfilePicChangeListener {
     public static final String TAG = "ZQ-SettingsFragment";
     private Context context;
     private ImageView ivProfilePic;
@@ -49,9 +49,7 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ivProfilePic = view.findViewById(R.id.iv_profile_pic);
-        SwitchMaterial smNightMode = view.findViewById(R.id.sm_night_mode);
-        smNightMode.setOnCheckedChangeListener(this);
-        smNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO);
+
         view.findViewById(R.id.tv_export_logins).setOnClickListener(view12 -> save("logins"));
         view.findViewById(R.id.tv_export_cards).setOnClickListener(view12 -> save("cards"));
         view.findViewById(R.id.tv_about).setOnClickListener(view12 -> about());
@@ -75,6 +73,23 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
                     "I UNDERSTAND"
             );
             dialog.show(getChildFragmentManager(), null);
+        });
+
+        SwitchMaterial smNightMode = view.findViewById(R.id.sm_night_mode);
+        smNightMode.setOnCheckedChangeListener((compoundButton, isActivated) -> AppCompatDelegate.setDefaultNightMode(isActivated ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO));
+        smNightMode.setChecked(AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO);
+
+        SwitchMaterial smEnableFingerprint = view.findViewById(R.id.sm_enable_fingerprint);
+        Remember.Z enableFingerprint = Remember.with(context).that(Helper.KEY_ENABLE_FINGERPRINT);
+        smEnableFingerprint.setChecked(enableFingerprint.was("true"));
+        smEnableFingerprint.setOnCheckedChangeListener((compoundButton, checked) -> {
+            if (checked) {
+                if (!Helper.isFingerprintSet(context)) {
+                    CToast.warn(context, "Fingerprint is not enabled.");
+                    smEnableFingerprint.toggle();
+                } else Remember.with(context).that(Helper.KEY_ENABLE_FINGERPRINT).is("true");
+
+            } else Remember.with(context).that(Helper.KEY_ENABLE_FINGERPRINT).is("false");
         });
 
         SwitchMaterial smShowShakePrompt = view.findViewById(R.id.sm_show_shake_prompt);
@@ -171,11 +186,6 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isActivated) {
-        AppCompatDelegate.setDefaultNightMode(isActivated ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     public void about() {

@@ -52,4 +52,5 @@
     <string name="app_icon">App Icon</string>
     <string name="version">Version\n1.0</string>
     <string name="delete_account">Delete Account</string>
+    <string name="enable_fingerprint">Enable Fingerprint</string>
 </resources>

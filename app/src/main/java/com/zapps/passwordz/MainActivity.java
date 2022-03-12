@@ -24,6 +24,7 @@ import com.zapps.passwordz.helper.CToast;
 import com.zapps.passwordz.helper.ConnectionObserver;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.PasswordGenerator;
+import com.zapps.passwordz.helper.Remember;
 
 import java.util.concurrent.Executor;
 
@@ -126,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onStart() {
         super.onStart();
         shakeDetector.start(sensorManager);
+        if (!Remember.with(this).that(Helper.KEY_ENABLE_FINGERPRINT).was("true")) {
+            displaySelectedFragment();
+            return;
+        }
         if (!Helper.isFingerprintSet(this)) {
             displaySelectedFragment();
             CToast.warn(MainActivity.this, "Please set fingerprint on your device to increase security");

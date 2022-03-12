@@ -38,6 +38,7 @@ public class Helper {
     public static boolean shakePrompted = false;
     public static final String KEY_HASHED_PASSWORD = "hashed_password";
     public static final String KEY_SHOW_SHAKE_PROMPT = "show_shake_prompt";
+    public static final String KEY_ENABLE_FINGERPRINT = "enable_fingerprint";
 
     public interface AuthenticationCallback {
         void result(boolean isSuccess);
