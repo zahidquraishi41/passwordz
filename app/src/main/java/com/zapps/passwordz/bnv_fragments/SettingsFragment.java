@@ -14,9 +14,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -141,17 +138,33 @@ public class SettingsFragment extends Fragment implements CompoundButton.OnCheck
     */
 
     private void save(String which) {
-        if (which.equals("cards"))
-            new ExportImportHelper(context).exportCards();
-        else if (which.equals("logins"))
-            new ExportImportHelper(context).exportLogins();
+        String backupPath = which.equals("logins") ? ExportImportHelper.LOGINS_EXCEL : ExportImportHelper.CARDS_EXCEL;
+        new AlertDialog.Builder(context)
+                .setTitle("Save " + which)
+                .setMessage("This will backup your " + which + " to '" + backupPath + "' . You can restore them when at later point or move them to a device without internet.")
+                .setPositiveButton("Save", (dialogInterface, i) -> {
+                    if (which.equals("cards"))
+                        new ExportImportHelper(context).exportCards();
+                    else if (which.equals("logins"))
+                        new ExportImportHelper(context).exportLogins();
+                })
+                .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
+                .create().show();
     }
 
     private void load(String which) {
-        if (which.equals("cards"))
-            new ExportImportHelper(context).importCards();
-        else if (which.equals("logins"))
-            new ExportImportHelper(context).importLogins();
+        String backupPath = which.equals("logins") ? ExportImportHelper.LOGINS_EXCEL : ExportImportHelper.CARDS_EXCEL;
+        new AlertDialog.Builder(context)
+                .setTitle("Load " + which)
+                .setMessage("This will restore your " + which + " from '" + backupPath + "'.")
+                .setPositiveButton("Load", (dialogInterface, i) -> {
+                    if (which.equals("cards"))
+                        new ExportImportHelper(context).importCards();
+                    else if (which.equals("logins"))
+                        new ExportImportHelper(context).importLogins();
+                })
+                .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
+                .create().show();
     }
 
     @Override

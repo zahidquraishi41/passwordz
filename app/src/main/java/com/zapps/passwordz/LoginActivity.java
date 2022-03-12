@@ -1,11 +1,13 @@
 package com.zapps.passwordz;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -17,6 +19,7 @@ import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.MToast;
 import com.zapps.passwordz.helper.Messages;
 import com.zapps.passwordz.helper.MrCipher;
+import com.zapps.passwordz.helper.PermissionHelper;
 import com.zapps.passwordz.helper.Remember;
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         enabler = new Enabler(etUsername, etPassword, btnLogin, btnSignUp);
         enabler.setProgressBar(progressBar);
         firebaseAuth = FirebaseAuth.getInstance();
+        if (PermissionHelper.requiresPermission(this))
+            PermissionHelper.requestPermissions(this);
     }
 
     @Override
@@ -50,7 +55,28 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 101) {
+            for (int result : grantResults)
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    CToast.warn(this, "Storage permissions are required!");
+                    return;
+                }
+        }
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+    }
+
     public void login(View view) {
+        if (PermissionHelper.requiresPermission(this)) {
+            PermissionHelper.requestPermissions(this);
+            return;
+        }
         String username, password;
         username = etUsername.getText().toString();
         password = etPassword.getText().toString();
@@ -95,6 +121,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void signUp(View view) {
+        if (PermissionHelper.requiresPermission(this)) {
+            PermissionHelper.requestPermissions(this);
+            return;
+        }
         startActivity(new Intent(this, SignUpActivity.class));
     }
 

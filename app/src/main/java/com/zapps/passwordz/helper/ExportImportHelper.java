@@ -4,14 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 
 import com.zapps.passwordz.model.CardsModel;
 import com.zapps.passwordz.model.LoginsModel;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -30,8 +28,8 @@ import java.util.List;
 public class ExportImportHelper {
     private static final String TAG = "ZQ-ExportImportHelper";
     private final Context context;
-    private static final String LOGINS_EXCEL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "logins.xls";
-    private static final String CARDS_EXCEL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "cards.xls";
+    public static final String LOGINS_EXCEL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "logins.xls";
+    public static final String CARDS_EXCEL = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "cards.xls";
 
     public ExportImportHelper(Context context) {
         this.context = context;

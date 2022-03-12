@@ -1,14 +1,11 @@
 package com.zapps.passwordz;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.hardware.SensorManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
@@ -28,10 +25,6 @@ import com.zapps.passwordz.helper.ConnectionObserver;
 import com.zapps.passwordz.helper.Helper;
 import com.zapps.passwordz.helper.PasswordGenerator;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {

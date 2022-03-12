@@ -26,8 +26,6 @@ import com.zapps.passwordz.R;
 import com.zapps.passwordz.model.CardsModel;
 import com.zapps.passwordz.model.LoginsModel;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -230,7 +228,7 @@ public class Helper {
         LoginsModel dummy16 = new LoginsModel("Reddit.com", "johnny.fields@gmail.com", "kIS@KAOF(99");
         LoginsModel dummy17 = new LoginsModel("LinkedIn.com", "gregory.goodwin@gmail.com", "PIJ(@!!214");
         LoginsModel dummy18 = new LoginsModel("Zoom.us", "lovell.baldwin@gmail.com", "strongPassword");
-        LoginsModel dummy19 = new LoginsModel("duckduckgo.com", "kennard.fletcher@gmail.com", "password_+");
+        LoginsModel dummy19 = new LoginsModel("DuckDuckGo.com", "kennard.fletcher@gmail.com", "password_+");
         LoginsModel dummy20 = new LoginsModel("Apple.com", "jerry.fennimore@gmail.com", "KP(@#K#");
         LoginsModel dummy21 = new LoginsModel("Apple.com", "george.skeldon@gmail.com", "KP(@#K#");
         LoginsModel dummy22 = new LoginsModel("Apple.com", "gerry.smith@gmail.com", "KP(@#K#");
