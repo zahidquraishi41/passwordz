@@ -74,7 +74,7 @@ public class CardsListFragment extends Fragment implements DeleteConfirmDialog.D
             adapter.notifyItemRemoved(index);
             if (adapter.list.size() == 0) {
                 tvMessage.setVisibility(View.VISIBLE);
-                tvMessage.setText(R.string.no_accounts_message);
+                tvMessage.setText(R.string.no_cards_found);
             }
         }
     }
@@ -155,7 +155,7 @@ public class CardsListFragment extends Fragment implements DeleteConfirmDialog.D
             public void onSuccess(@NonNull CardsModel... cardsModels) {
                 if (cardsModels.length == 0) {
                     tvMessage.setVisibility(View.VISIBLE);
-                    tvMessage.setText(R.string.no_accounts_message);
+                    tvMessage.setText(R.string.no_cards_found);
                 } else tvMessage.setVisibility(View.GONE);
                 adapter.refresh(cardsModels);
                 progressBar.setVisibility(View.GONE);

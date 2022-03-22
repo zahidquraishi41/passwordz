@@ -10,7 +10,9 @@
     <string name="welcome_back">Welcome Back</string>
     <string name="about">About</string>
     <string name="get_started">Get Started</string>
-    <string name="no_accounts_message">Wow such empty!</string>
+    <string name="no_accounts_message">No logins added!</string>
+    <string name="no_logins_found">No logins added</string>
+    <string name="no_cards_found">No cards added</string>
     <string name="sample_username">zahidquraishi41@gmail.com</string>
     <string name="copy_username">Copy username</string>
     <string name="copy_password">Copy password</string>

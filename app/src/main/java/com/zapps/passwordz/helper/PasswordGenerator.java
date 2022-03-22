@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class PasswordGenerator {
     private static final String TAG = "ZQ-PasswordGenerator";
-    public static final int RECOMMENDED_PASSWORD_LENGTH = 15;
+    public static final int RECOMMENDED_PASSWORD_LENGTH = 9;
     // selects a random string from s then returns it
     private static String choice(String s) {
         int random = new Random().nextInt(s.length());
@@ -29,6 +29,7 @@ public class PasswordGenerator {
         String small_alphabets = "abcdefghjkmnpqrstuvwxyz";
         String numbers = "123456789";
         String symbols = "~!@#$%^&*()-_=+]}[{;:<>?";
+
         StringBuilder passwordBuffer = new StringBuilder();
         passwordBuffer.append(choice(caps_alphabets));
         passwordBuffer.append(choice(small_alphabets));

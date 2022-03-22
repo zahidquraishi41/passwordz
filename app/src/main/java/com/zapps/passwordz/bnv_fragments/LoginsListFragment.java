@@ -92,7 +92,7 @@ public class LoginsListFragment extends Fragment {
                 // if no logins is added then displaying message
                 if (loginsModels.length == 0) {
                     tvMessage.setVisibility(View.VISIBLE);
-                    tvMessage.setText(R.string.no_accounts_message);
+                    tvMessage.setText(R.string.no_logins_found);
                 } else tvMessage.setVisibility(View.GONE);
 
                 // counting the number of accounts in each website
