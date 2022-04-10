@@ -65,6 +65,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_settings" />
+
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/sm_night_mode"
                     android:layout_width="match_parent"
@@ -107,6 +112,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/backup_amp_restore" />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_export_logins"
                     android:layout_width="match_parent"
@@ -116,17 +126,6 @@
                     android:drawablePadding="8dp"
                     android:padding="16dp"
                     android:text="@string/export_logins"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tv_export_cards"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:drawableStart="@drawable/ic_credit_card"
-                    android:drawablePadding="8dp"
-                    android:padding="16dp"
-                    android:text="@string/export_cards"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -141,6 +140,17 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_export_cards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:drawableStart="@drawable/ic_credit_card"
+                    android:drawablePadding="8dp"
+                    android:padding="16dp"
+                    android:text="@string/export_cards"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_import_cards"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -151,6 +161,8 @@
                     android:text="@string/import_cards"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
+                <!--BELOW TWO ARE DEV TOOLS-->
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_remove_all_logins"
                     android:layout_width="match_parent"
@@ -160,7 +172,8 @@
                     android:drawablePadding="8dp"
                     android:padding="16dp"
                     android:text="@string/remove_all_logins"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:visibility="gone" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_remove_all_cards"
@@ -171,7 +184,8 @@
                     android:drawablePadding="8dp"
                     android:padding="16dp"
                     android:text="@string/remove_all_cards"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:visibility="gone" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -187,6 +201,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/others" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_about"
