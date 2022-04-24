@@ -1,5 +1,6 @@
 package com.zapps.passwordz.bnv_fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,8 +63,8 @@ public class LoginsListFragment extends Fragment {
 
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
         recyclerView.setHasFixedSize(true);
+        Helper.hideOnScroll(recyclerView, ((Activity) context).findViewById(R.id.bnv_main), fabAddLogins);
         recyclerView.setLayoutManager(linearLayoutManager);
-        Helper.autoHideFAB(recyclerView, fabAddLogins);
         fabAddLogins.setOnClickListener(view1 -> startActivity(new Intent(context, AddOrEditLoginsActivity.class)));
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -71,6 +73,7 @@ public class LoginsListFragment extends Fragment {
             refreshAdapter();
         });
         progressBar.setVisibility(View.VISIBLE);
+
         return view;
     }
 

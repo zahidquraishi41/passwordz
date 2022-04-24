@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -157,19 +158,20 @@ public class Helper {
                 + '/' + context.getResources().getResourceEntryName(drawableId));
     }
 
-    public static void autoHideFAB(RecyclerView recyclerView, FloatingActionButton floatingActionButton) {
+    public static void hideOnScroll(RecyclerView recyclerView, View... views) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy < 0 && !floatingActionButton.isShown())
-                    floatingActionButton.show();
-                else if (dy > 0 && floatingActionButton.isShown())
-                    floatingActionButton.hide();
+                for (View view : views)
+                    if (dy < 0 && !view.isShown())
+                        view.setVisibility(View.VISIBLE);
+                    else if (dy > 0 && view.isShown())
+                        view.setVisibility(View.GONE);
             }
         });
-
     }
+
 
 
     /* TODO

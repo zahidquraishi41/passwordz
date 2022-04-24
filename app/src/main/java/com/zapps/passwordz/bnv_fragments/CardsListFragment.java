@@ -1,6 +1,7 @@
 package com.zapps.passwordz.bnv_fragments;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -53,7 +54,7 @@ public class CardsListFragment extends Fragment implements DeleteConfirmDialog.D
         linearLayoutManager = new LinearLayoutManager(context);
 
         fabAddCard.setOnClickListener(view1 -> startActivity(new Intent(context, AddCardActivity.class)));
-        Helper.autoHideFAB(recyclerView, fabAddCard);
+        Helper.hideOnScroll(recyclerView, ((Activity) context).findViewById(R.id.bnv_main), fabAddCard);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
         progressBar.setVisibility(View.VISIBLE);
