@@ -72,9 +72,21 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shakeDetector = new ShakeDetector(() -> Helper.copyToClipboard(MainActivity.this, Helper.generatePassword(PasswordGenerator.RECOMMENDED_PASSWORD_LENGTH)));
         shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_LIGHT);
-        new ConnectionObserver(this, this, () -> {
-            if (isAuthenticated) runOnUiThread(this::displaySelectedFragment);
-        });
+        new ConnectionObserver(this, this, this::display);
+    }
+
+    private void display() {
+        if (!Remember.with(this).that(Helper.KEY_ENABLE_FINGERPRINT).was("true")) {
+            displaySelectedFragment();
+            return;
+        }
+        if (!Helper.isFingerprintSet(this)) {
+            displaySelectedFragment();
+            CToast.warn(MainActivity.this, "Please set fingerprint on your device to increase security");
+            return;
+        }
+        if (!isAuthenticated) authenticate();
+        else displaySelectedFragment();
     }
 
     private void authenticate() {
@@ -127,17 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     protected void onStart() {
         super.onStart();
         shakeDetector.start(sensorManager);
-        if (!Remember.with(this).that(Helper.KEY_ENABLE_FINGERPRINT).was("true")) {
-            displaySelectedFragment();
-            return;
-        }
-        if (!Helper.isFingerprintSet(this)) {
-            displaySelectedFragment();
-            CToast.warn(MainActivity.this, "Please set fingerprint on your device to increase security");
-            return;
-        }
-        if (!isAuthenticated) authenticate();
-        else displaySelectedFragment();
+        display();
     }
 
     @Override
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
      */
     private void displaySelectedFragment() {
         int id = navigationView.getSelectedItemId();
-        findViewById(id).performClick();
+        runOnUiThread(() -> findViewById(id).performClick());
     }
 
     @Override
