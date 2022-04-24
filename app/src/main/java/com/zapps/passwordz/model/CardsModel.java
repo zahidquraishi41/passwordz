@@ -131,20 +131,18 @@ public class CardsModel implements Cloneable, Comparable<CardsModel> {
     }
 
     public GradientDrawable cardBackground() {
-        ArrayList<GradientDrawable> gradientDrawables = new ArrayList<>();
-        gradientDrawables.add(gradient("#f857a6", "#ff5858"));
-        gradientDrawables.add(gradient("#4b6cb7", "#182848"));
-        gradientDrawables.add(gradient("#1F1C2C", "#928DAB"));
-        gradientDrawables.add(gradient("#a044ff", "#1F1C18"));
-        gradientDrawables.add(gradient("#f46b45", "#eea849"));
-        gradientDrawables.add(gradient("#4CB8C4", "#3CD3AD"));
-        gradientDrawables.add(gradient("#6a3093", "#a044ff"));
-        gradientDrawables.add(gradient("#AA076B", "#61045F"));
-        gradientDrawables.add(gradient("#76b852", "#8DC26F"));
-
-        Random random = new Random();
-        int randomIndex = random.nextInt(gradientDrawables.size());
-        return gradientDrawables.get(randomIndex);
+        GradientDrawable gradientDrawable = gradient("#f857a6", "#ff5858");
+        if (cardNumber == null || cardNumber.isEmpty() || cardNumber.startsWith("1"))
+            gradientDrawable = gradient("#f857a6", "#ff5858");
+        if (cardNumber.startsWith("2")) gradientDrawable = gradient("#4b6cb7", "#182848");
+        if (cardNumber.startsWith("3")) gradientDrawable = gradient("#1F1C2C", "#928DAB");
+        if (cardNumber.startsWith("4")) gradientDrawable = gradient("#a044ff", "#1F1C18");
+        if (cardNumber.startsWith("5")) gradientDrawable = gradient("#f46b45", "#eea849");
+        if (cardNumber.startsWith("6")) gradientDrawable = gradient("#4CB8C4", "#3CD3AD");
+        if (cardNumber.startsWith("7")) gradientDrawable = gradient("#6a3093", "#a044ff");
+        if (cardNumber.startsWith("8")) gradientDrawable = gradient("#AA076B", "#61045F");
+        if (cardNumber.startsWith("9")) gradientDrawable = gradient("#76b852", "#8DC26F");
+        return gradientDrawable;
     }
 
     public boolean equals(CardsModel cardsModel) {
